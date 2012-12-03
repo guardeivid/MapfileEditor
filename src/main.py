@@ -1,13 +1,8 @@
 import sys
 from PyQt4 import uic, QtGui, QtCore
-#from PyQt4.QtCore import *
-#from PyQt4.QtGui import *
-from mainwindow import Ui_MapfileEditor
-from mapSetting import Ui_MapSetting
 import mapscript 
 
 (Ui_MapfileEditor, QMainWindow) = uic.loadUiType('ui/mainwindow.ui')
-#(Ui_MapSetting, QMapSettingWindow) = uic.loadUiType('ui/mapSetting.ui')
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -19,10 +14,6 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         super (MapfileEditorApplication, self).__init__(parent)
         self.createWidgets()
         
-        #self.model = QtGui.QStandardItemModel()
-        #self.model.setHorizontalHeaderItem(0, QtGui.QStandardItem('Key')) 
-        #self.model.setHorizontalHeaderItem(1, QtGui.QStandardItem('Value'))
- 
         # Constants
         self.filename = '/home/yves/mapfile.map'
         self.units = ['dd', 'feet', 'inches', 'meters', 'miles', 'nauticalmiles', 'pixels']
