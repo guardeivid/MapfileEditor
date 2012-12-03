@@ -16,6 +16,7 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         
         # Constants
         self.filename = '/home/yves/mapfile.map'
+        self.history = []
         self.units = ['dd', 'feet', 'inches', 'meters', 'miles', 'nauticalmiles', 'pixels']
         self.layerTypes = ['point', 'line', 'polygon', 'raster', 'annotation', 'query', 'circle', 'tileindex']
         self.connectionTypes = ['inline', 'shapefile', 'tiled shapefile', 'sde', 'ogr','postgis','wms', 'oracle spatial', 'wfs', 'graticule', 'mygis', 'raster']
