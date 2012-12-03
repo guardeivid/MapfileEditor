@@ -1,0 +1,115 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'mainwindow.ui'
+#
+# Created: Sun Dec  2 15:47:40 2012
+#      by: PyQt4 UI code generator 4.9.1
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt4 import QtCore, QtGui
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
+class Ui_MapfileEditor(object):
+    def setupUi(self, MapfileEditor):
+        MapfileEditor.setObjectName(_fromUtf8("MapfileEditor"))
+        MapfileEditor.resize(800, 600)
+        self.centralwidget = QtGui.QWidget(MapfileEditor)
+        self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
+        self.mf_structure = QtGui.QTreeView(self.centralwidget)
+        self.mf_structure.setGeometry(QtCore.QRect(10, 20, 256, 541))
+        self.mf_structure.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.mf_structure.setFrameShadow(QtGui.QFrame.Sunken)
+        self.mf_structure.setObjectName(_fromUtf8("mf_structure"))
+        self.mf_preview = QtGui.QGraphicsView(self.centralwidget)
+        self.mf_preview.setGeometry(QtCore.QRect(270, 20, 521, 541))
+        self.mf_preview.setObjectName(_fromUtf8("mf_preview"))
+        MapfileEditor.setCentralWidget(self.centralwidget)
+        self.menubar = QtGui.QMenuBar(MapfileEditor)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
+        self.menubar.setObjectName(_fromUtf8("menubar"))
+        self.menuFichier = QtGui.QMenu(self.menubar)
+        self.menuFichier.setObjectName(_fromUtf8("menuFichier"))
+        self.menuHelp = QtGui.QMenu(self.menubar)
+        self.menuHelp.setObjectName(_fromUtf8("menuHelp"))
+        self.menuNew = QtGui.QMenu(self.menubar)
+        self.menuNew.setObjectName(_fromUtf8("menuNew"))
+        MapfileEditor.setMenuBar(self.menubar)
+        self.statusbar = QtGui.QStatusBar(MapfileEditor)
+        self.statusbar.setObjectName(_fromUtf8("statusbar"))
+        MapfileEditor.setStatusBar(self.statusbar)
+        self.actionNew = QtGui.QAction(MapfileEditor)
+        self.actionNew.setObjectName(_fromUtf8("actionNew"))
+        self.actionOpen = QtGui.QAction(MapfileEditor)
+        self.actionOpen.setObjectName(_fromUtf8("actionOpen"))
+        self.actionExit = QtGui.QAction(MapfileEditor)
+        self.actionExit.setObjectName(_fromUtf8("actionExit"))
+        self.actionHelp = QtGui.QAction(MapfileEditor)
+        self.actionHelp.setObjectName(_fromUtf8("actionHelp"))
+        self.actionAbout = QtGui.QAction(MapfileEditor)
+        self.actionAbout.setObjectName(_fromUtf8("actionAbout"))
+        self.actionMap_Object = QtGui.QAction(MapfileEditor)
+        self.actionMap_Object.setObjectName(_fromUtf8("actionMap_Object"))
+        self.actionLayer_object = QtGui.QAction(MapfileEditor)
+        self.actionLayer_object.setObjectName(_fromUtf8("actionLayer_object"))
+        self.actionClass_object = QtGui.QAction(MapfileEditor)
+        self.actionClass_object.setObjectName(_fromUtf8("actionClass_object"))
+        self.actionSymbol = QtGui.QAction(MapfileEditor)
+        self.actionSymbol.setObjectName(_fromUtf8("actionSymbol"))
+        self.actionFont = QtGui.QAction(MapfileEditor)
+        self.actionFont.setObjectName(_fromUtf8("actionFont"))
+        self.actionSave = QtGui.QAction(MapfileEditor)
+        self.actionSave.setObjectName(_fromUtf8("actionSave"))
+        self.actionMapSetting = QtGui.QAction(MapfileEditor)
+        self.actionMapSetting.setObjectName(_fromUtf8("actionMapSetting"))
+        self.menuFichier.addAction(self.actionNew)
+        self.menuFichier.addAction(self.actionOpen)
+        self.menuFichier.addAction(self.actionSave)
+        self.menuFichier.addAction(self.actionMapSetting)
+        self.menuFichier.addSeparator()
+        self.menuFichier.addAction(self.actionExit)
+        self.menuHelp.addAction(self.actionHelp)
+        self.menuHelp.addAction(self.actionAbout)
+        self.menuNew.addAction(self.actionMap_Object)
+        self.menuNew.addAction(self.actionLayer_object)
+        self.menuNew.addAction(self.actionClass_object)
+        self.menuNew.addSeparator()
+        self.menuNew.addAction(self.actionSymbol)
+        self.menuNew.addAction(self.actionFont)
+        self.menubar.addAction(self.menuFichier.menuAction())
+        self.menubar.addAction(self.menuNew.menuAction())
+        self.menubar.addAction(self.menuHelp.menuAction())
+
+        self.retranslateUi(MapfileEditor)
+        QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL(_fromUtf8("triggered()")), self.mf_structure.reset)
+        QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL(_fromUtf8("activated()")), self.mf_structure.update)
+        QtCore.QObject.connect(self.actionExit, QtCore.SIGNAL(_fromUtf8("activated()")), MapfileEditor.close)
+        QtCore.QMetaObject.connectSlotsByName(MapfileEditor)
+
+    def retranslateUi(self, MapfileEditor):
+        MapfileEditor.setWindowTitle(QtGui.QApplication.translate("MapfileEditor", "Mapfile Editor", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuFichier.setTitle(QtGui.QApplication.translate("MapfileEditor", "File", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuHelp.setTitle(QtGui.QApplication.translate("MapfileEditor", "Help", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuNew.setTitle(QtGui.QApplication.translate("MapfileEditor", "New", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionNew.setText(QtGui.QApplication.translate("MapfileEditor", "New", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionNew.setShortcut(QtGui.QApplication.translate("MapfileEditor", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionOpen.setText(QtGui.QApplication.translate("MapfileEditor", "Open", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionOpen.setShortcut(QtGui.QApplication.translate("MapfileEditor", "Ctrl+O", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionExit.setText(QtGui.QApplication.translate("MapfileEditor", "Exit", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionExit.setShortcut(QtGui.QApplication.translate("MapfileEditor", "Ctrl+Q", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionHelp.setText(QtGui.QApplication.translate("MapfileEditor", "Help", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAbout.setText(QtGui.QApplication.translate("MapfileEditor", "About", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionMap_Object.setText(QtGui.QApplication.translate("MapfileEditor", "Map Object", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionLayer_object.setText(QtGui.QApplication.translate("MapfileEditor", "Layer object", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionClass_object.setText(QtGui.QApplication.translate("MapfileEditor", "Class object", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSymbol.setText(QtGui.QApplication.translate("MapfileEditor", "Symbol", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionFont.setText(QtGui.QApplication.translate("MapfileEditor", "Font", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSave.setText(QtGui.QApplication.translate("MapfileEditor", "Save", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSave.setShortcut(QtGui.QApplication.translate("MapfileEditor", "Ctrl+S", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionMapSetting.setText(QtGui.QApplication.translate("MapfileEditor", "Map setting", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionMapSetting.setShortcut(QtGui.QApplication.translate("MapfileEditor", "Ctrl+T", None, QtGui.QApplication.UnicodeUTF8))
+
