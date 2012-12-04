@@ -25,9 +25,13 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.new()
 
         self.connect(self.ui.actionNew, QtCore.SIGNAL(_fromUtf8("activated()")), self.new)
+        self.connect(self.ui.mf_tb_new, QtCore.SIGNAL(_fromUtf8("clicked()")), self.new)
         self.connect(self.ui.actionOpen, QtCore.SIGNAL(_fromUtf8("activated()")), self.open)
+        self.connect(self.ui.mf_tb_open, QtCore.SIGNAL(_fromUtf8("clicked()")), self.open)
         self.connect(self.ui.actionSave, QtCore.SIGNAL(_fromUtf8("activated()")), self.save)
+        self.connect(self.ui.mf_tb_save, QtCore.SIGNAL(_fromUtf8("clicked()")), self.save)
         self.connect(self.ui.actionMapSetting, QtCore.SIGNAL(_fromUtf8("activated()")), self.mapSetting)
+        self.connect(self.ui.mf_tb_mapparameter, QtCore.SIGNAL(_fromUtf8("clicked()")), self.mapSetting)
 
     # ###########################
     # Settings Windows
@@ -79,7 +83,7 @@ class MapfileEditorApplication(QtGui.QMainWindow):
 
     def open(self):
         try:
-            self.map = mapscript.mapObj('/home/yves/exemple.map')
+            self.map = mapscript.mapObj('/mnt/home_new/Documents/Developpement/Langage/Python/mapfile-editor/MapfileEditor/data/world_mapfile.map')
         finally:
             self.ui.statusbar.showMessage('Error: opening mapfile failed.')
 
@@ -94,6 +98,22 @@ class MapfileEditorApplication(QtGui.QMainWindow):
     # ##########################
     # Common Method
     # ##########################
+    def updateMap(self):
+        cloneMap = self.map.clone()
+        cloneMap.setSize(500,500)
+        cloneMap.setExtent(-180,-90,180,90)
+        try:
+            imageObj = cloneMap.draw()
+        finally:
+            self.ui.statusbar.showMessage("Error: map can't be draw")
+
+        imageObj.save('/tmp/mapfileEditor.'+cloneMap.outputformat.extension)
+        scene = QtGui.QGraphicsScene()
+        pixMap = QtGui.QPixmap('/tmp/mapfileEditor.'+cloneMap.outputformat.extension)
+        scene.addPixmap(pixMap)
+        self.ui.mf_preview.setScene(scene)
+        self.ui.mf_preview.show()
+
     def updateMapStructure(self):
         # reset du model
         self.model = QtGui.QStandardItemModel()
@@ -112,14 +132,19 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         layersItems.setEditable(False)
         for index in range(self.map.numlayers):
             layer = self.map.getLayer(index)
-            layerItem = QtGui.QStandardItem('Layer #1 '+layer.name)
+            title = 'Layer #1 '+layer.name
+            layerItem = QtGui.QStandardItem(title)
+            layerItem.setToolTip(title)
             layerItem.setEditable(False)
+            layerItem.setCheckable(True)
             layersItems.appendRow(layerItem)
 
         #layersChild.setChild(0, layersItems)
         parentItem.appendRow(layersItems)
         self.ui.mf_structure.setModel(self.model)
+        self.ui.mf_structure.expandAll()
         #self.ui.view.setDragDropMode(QtGui.QAbstractItemView.InternalMove)
+        self.updateMap()
         
 
 
