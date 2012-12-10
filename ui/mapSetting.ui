@@ -748,14 +748,14 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="mf_map_defresolution_label_2">
         <property name="text">
          <string>Resolution</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="mf_resolution"/>
+       <widget class="QSpinBox" name="mf_map_resolution"/>
       </item>
       <item>
        <spacer name="horizontalSpacer_3">
@@ -771,14 +771,14 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="mf_map_defresolution_label">
         <property name="text">
          <string>Def Resolution</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="mf_defresolution"/>
+       <widget class="QSpinBox" name="mf_map_defresolution"/>
       </item>
      </layout>
     </widget>
@@ -925,7 +925,7 @@
        <x>50</x>
        <y>200</y>
        <width>481</width>
-       <height>25</height>
+       <height>26</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -947,7 +947,7 @@
        <x>50</x>
        <y>230</y>
        <width>481</width>
-       <height>25</height>
+       <height>26</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -960,6 +960,13 @@
       </item>
       <item>
        <widget class="QLineEdit" name="mf_map_config_encryption"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="mf_map_config_encryption_browse">
+        <property name="text">
+         <string>Browse</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

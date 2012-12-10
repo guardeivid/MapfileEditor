@@ -143,6 +143,41 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.QMapSettingWindow.connect(self.QMapSettingWindow.mf_map_symbolset_browse, QtCore.SIGNAL(_fromUtf8("clicked()")), self.openSymbolSet)
 
         # advancedTabForm
+        self.QMapSettingWindow.connect(self.QMapSettingWindow.mf_map_config_encryption_browse, QtCore.SIGNAL(_fromUtf8("clicked()")), self.openEncryptionkeyFile)
+        self.QMapSettingWindow.connect(self.QMapSettingWindow.mf_map_config_projlib_browse, QtCore.SIGNAL(_fromUtf8("clicked()")), self.openProjLibFile)
+
+        self.QMapSettingWindow.mf_map_resolution.setValue(self.map.resolution)
+        self.QMapSettingWindow.mf_map_defresolution.setValue(self.map.defresolution)
+        #self.QMapSettingWindow.mf_map_angle.setValue(self.map.angle)
+        self.QMapSettingWindow.mf_map_angle.setEnabled(False)
+        self.QMapSettingWindow.mf_map_angle_slider.setEnabled(False)
+
+        colorObj = self.map.imagecolor
+        QtColor = QtGui.QColor(colorObj.red, colorObj.green, colorObj.blue)
+        self.QMapSettingWindow.mf_map_imagecolor.setColor(QtColor)
+
+        if(self.map.templatepattern != None):
+            self.QMapSettingWindow.mf_map_templatepattern.setText(self.map.templatepattern)
+        if(self.map.datapattern != None):
+            self.QMapSettingWindow.mf_map_dataapattern.setText(self.map.datapattern)
+
+        if(self.map.getConfigOption('CGI_CONTEXT_URL') != None):
+            self.QMapSettingWindow.mf_map_config_contexturl.setText(self.map.getConfigOption('CGI_CONTEXT_URL'))
+        if(self.map.getConfigOption('MS_ENCRYPTION_KEY') != None):
+            self.QMapSettingWindow.mf_map_config_encryption.setText(self.map.getConfigOption('MS_ENCRYPTION_KEY'))
+        if(self.map.getConfigOption('MS_NONSQUARE') == 'yes'):
+            self.QMapSettingWindow.mf_map_config_squarepixel_off.setChecked(False)
+            self.QMapSettingWindow.mf_map_config_squarepixel_on.setChecked(True)
+        elif(self.map.getConfigOption('MS_NONSQUARE') == 'no'):
+            self.QMapSettingWindow.mf_map_config_squarepixel_off.setChecked(True)
+            self.QMapSettingWindow.mf_map_config_squarepixel_off.setChecked(False)
+ 
+        self.QMapSettingWindow.mf_map_config_missingdata.addItems(['FAIL','LOG','IGNORE'])
+        if(self.map.getConfigOption('ON_MISSING_DATA') != None): 
+            self.QMapSettingWindow.mf_map_config_missingdata.setCurrentIndex(self.map.getConfigOption('ON_MISSING_DATA'))
+        if(self.map.getConfigOption('PROJ_LIB') != None):
+            self.QMapSettingWindow.mf_map_config_projlib.setText(self.map.getConfigOption('PROJ_LIB'))
+
         # outputFormatTabForm
         # OGCTabForm
         # debugTabForm
@@ -246,6 +281,14 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.QMapSettingWindow.mf_map_extent_left.setEnabled(enable)
         self.QMapSettingWindow.mf_map_extent_bottom.setEnabled(enable)
         self.QMapSettingWindow.mf_map_extent_right.setEnabled(enable)
+
+    def openEncryptionkeyFile(self):
+        openEncryptionFile = str(QtGui.QFileDialog.getOpenFileName(None, "Select one file to open", self.firstDir, "Text (*.txt);;All (*.*)"))
+        self.QMapSettingWindow.mf_map_config_encryption.setText(openEncryptionFile)
+
+    def openProjLibFile (self):
+        projLibFile = str(QtGui.QFileDialog.getOpenFileName(None, "Select one file to open", self.firstDir, "Text (*.txt);;All (*.*)"))
+        self.QMapSettingWindow.mf_map_config_projlib.setText(projLibFile)
 
     def openShapePath(self):
         shapepath = str(QtGui.QFileDialog.getExistingDirectory())
@@ -430,12 +473,6 @@ class MapfileEditorApplication(QtGui.QMainWindow):
 
         self.ui.statusbar.showMessage('Info: mapfile structure added.')
         mapItem = QtGui.QStandardItem('Map parameters')
-        # TODO: *** add signals to mapSetting*
-        #self.connect(mapItem, QtCore.SIGNAL(_fromUtf8("doubleclicked()")), self.mapSetting)
-        #treeView = QtGui.QTreeView()
-        #treeView.setModel(self.model)
-        #self.connect(treeView, QtCore.SIGNAL(_fromUtf8("doubleClicked()")), self.mapSetting) # utiliser QModelIndex a la place de mapItem.index()
-        #print self.ui.mf_structure.viewport
 
         mapItem.setEditable(False)
         parentItem.appendRow(mapItem)
