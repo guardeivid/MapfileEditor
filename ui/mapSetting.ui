@@ -9,9 +9,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>561</width>
-    <height>429</height>
+    <width>560</width>
+    <height>420</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>560</width>
+    <height>420</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>560</width>
+    <height>420</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>560</width>
+    <height>420</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Map Setting</string>
@@ -1060,296 +1078,247 @@
     <attribute name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Managing custom output formats.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </attribute>
-    <widget class="QListWidget" name="mf_outputformat_list">
+    <widget class="QWidget" name="">
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>30</y>
+       <y>10</y>
        <width>151</width>
-       <height>291</height>
+       <height>311</height>
       </rect>
      </property>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>160</x>
-       <y>120</y>
-       <width>371</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_14">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QLabel" name="mf_outputformat_transparent_label">
-        <property name="text">
-         <string>Transparent</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="mf_outputformat_transparent_on">
-        <property name="text">
-         <string>On</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="mf_outputformat_transparent_off">
-        <property name="text">
-         <string>Off</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>160</x>
-       <y>30</y>
-       <width>371</width>
-       <height>25</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_20">
-      <item>
-       <widget class="QLabel" name="mf_outputformat_name_label">
-        <property name="text">
-         <string>Name</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="mf_outputformat_name"/>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>160</x>
-       <y>90</y>
-       <width>371</width>
-       <height>25</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_23">
-      <item>
-       <widget class="QLabel" name="mf_outputformat_options_label">
-        <property name="text">
-         <string>Format option</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="mf_outputformat_options"/>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>160</x>
-       <y>60</y>
-       <width>371</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_26">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_25">
+       <layout class="QHBoxLayout" name="horizontalLayout_31">
         <item>
-         <widget class="QLabel" name="mf_outputformat_driver_label">
+         <widget class="QToolButton" name="outputformat_reset">
           <property name="text">
-           <string>Driver</string>
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/draw-eraser.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/draw-eraser.png</iconset>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="mf_outputformat_driver">
-          <item>
-           <property name="text">
-            <string>AGG/PNG</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>AGG/JPEG</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>GD/GIF</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>GD/PNG</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>TEMPLATE</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>OGR/Mapinfo</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>GDAL/*</string>
-           </property>
-          </item>
+         <widget class="QToolButton" name="outputformat_delete">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-close.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-close.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="outputformat_import">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-import.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-import.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="outputformat_new">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-new.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-new.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="outputformat_edit">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-edit.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-edit.png</iconset>
+          </property>
          </widget>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_24">
-        <item>
-         <widget class="QLabel" name="mf_outputformat_extension_label">
-          <property name="text">
-           <string>Extension</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="mf_outputformat_extension"/>
-        </item>
-       </layout>
+       <widget class="QListWidget" name="mf_outputformat_list"/>
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QWidget" name="">
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>150</y>
+       <y>50</y>
        <width>371</width>
-       <height>28</height>
+       <height>171</height>
       </rect>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_27">
+     <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_22">
+       <layout class="QHBoxLayout" name="horizontalLayout_20">
         <item>
-         <widget class="QLabel" name="mf_outputformat_imagemode_label">
+         <widget class="QLabel" name="mf_outputformat_name_label">
           <property name="text">
-           <string>Image mode</string>
+           <string>Name</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="mf_outputformat_imagemode"/>
+         <widget class="QLineEdit" name="mf_outputformat_name"/>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_21">
+       <layout class="QHBoxLayout" name="horizontalLayout_26">
         <item>
-         <widget class="QLabel" name="mf_outputformat_mimetype_label">
+         <layout class="QHBoxLayout" name="horizontalLayout_25">
+          <item>
+           <widget class="QLabel" name="mf_outputformat_driver_label">
+            <property name="text">
+             <string>Driver</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="mf_outputformat_driver">
+            <item>
+             <property name="text">
+              <string>AGG/PNG</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>AGG/JPEG</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>GD/GIF</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>GD/PNG</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>TEMPLATE</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>OGR/Mapinfo</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>GDAL/*</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_24">
+          <item>
+           <widget class="QLabel" name="mf_outputformat_extension_label">
+            <property name="text">
+             <string>Extension</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="mf_outputformat_extension"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_23">
+        <item>
+         <widget class="QLabel" name="mf_outputformat_options_label">
           <property name="text">
-           <string>Mime type</string>
+           <string>Format option</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="mf_outputformat_mimetype"/>
+         <widget class="QLineEdit" name="mf_outputformat_options"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_14">
+        <item>
+         <widget class="QLabel" name="mf_outputformat_transparent_label">
+          <property name="text">
+           <string>Transparent</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="mf_outputformat_transparent_on">
+          <property name="text">
+           <string>On</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="mf_outputformat_transparent_off">
+          <property name="text">
+           <string>Off</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_27">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_22">
+          <item>
+           <widget class="QLabel" name="mf_outputformat_imagemode_label">
+            <property name="text">
+             <string>Image mode</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="mf_outputformat_imagemode"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_21">
+          <item>
+           <widget class="QLabel" name="mf_outputformat_mimetype_label">
+            <property name="text">
+             <string>Mime type</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="mf_outputformat_mimetype"/>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
      </layout>
-    </widget>
-    <widget class="QToolButton" name="outputformat_reset">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>10</y>
-       <width>26</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/draw-eraser.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/draw-eraser.png</iconset>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="outputformat_delete">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>10</y>
-       <width>26</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-close.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-close.png</iconset>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="outputformat_import">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>10</y>
-       <width>26</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-import.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-import.png</iconset>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="outputformat_new">
-     <property name="geometry">
-      <rect>
-       <x>90</x>
-       <y>10</y>
-       <width>26</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-new.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-new.png</iconset>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="outputformat_edit">
-     <property name="geometry">
-      <rect>
-       <x>120</x>
-       <y>10</y>
-       <width>26</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-edit.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-edit.png</iconset>
-     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="ogcTabForm">
