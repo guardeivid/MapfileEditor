@@ -393,7 +393,7 @@
        <x>10</x>
        <y>100</y>
        <width>521</width>
-       <height>51</height>
+       <height>60</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="projectionLayout">
@@ -492,26 +492,64 @@
        </layout>
       </item>
       <item>
-       <widget class="QComboBox" name="mf_map_projection">
-        <property name="minimumSize">
-         <size>
-          <width>350</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>350</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Write EPSG code or WKT proj4 string.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="editable">
-         <bool>true</bool>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_30">
+          <item>
+           <widget class="QComboBox" name="mf_map_projection">
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>350</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Search EPSG code using EPSG key word or WKT proj4 string using +proj key word. Projection are always store in wkt proj string for best performance.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="mf_map_projection_btlink">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/documentinfo.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/documentinfo.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="mf_map_projection_info">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::LogText</enum>
+          </property>
+          <property name="margin">
+           <number>5</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>

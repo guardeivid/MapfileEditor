@@ -367,5 +367,21 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>mf_structure</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>MapfileEditor</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>106</x>
+     <y>316</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>

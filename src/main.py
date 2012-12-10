@@ -42,6 +42,7 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.connect(self.ui.actionSaveAs, QtCore.SIGNAL(_fromUtf8("activated()")), self.saveas)
         self.connect(self.ui.actionMapSetting, QtCore.SIGNAL(_fromUtf8("activated()")), self.mapSetting)
         self.connect(self.ui.mf_tb_mapparameter, QtCore.SIGNAL(_fromUtf8("clicked()")), self.mapSetting)
+        self.connect(self.ui.mf_structure, QtCore.SIGNAL(_fromUtf8("doubleClicked(QModelIndex)")), self.openDialog)
 
     # ###########################
     # Settings Windows
@@ -83,16 +84,27 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         elif(str(self.map.getProjection()).startswith("+proj=")):
             wktProj = str(self.map.getProjection())
             # Change wktproj to EPSG/Name
-            epsgCode = self.proj4List['epsgByWkt'][wktProj]
+            try:
+                epsgCode = self.proj4List['epsgByWkt'][wktProj]
+            except KeyError:
+                epsgCode = False
 
         if(epsgCode != ''):
-            epsgName = self.proj4List['nameByEpsg'][epsgCode]
-            currentProj = epsgName + " - " + epsgCode
+            if(epsgCode):
+               epsgName = self.proj4List['nameByEpsg'][epsgCode]
+               currentProj = epsgName + " - " + epsgCode
+            else:
+               currentProj = wktProj
         else:
             currentProj = ''
 
-        self.QMapSettingWindow.mf_map_projection_btepsg.setChecked(True)
-        self.QMapSettingWindow.mf_map_projection_btproj.setChecked(False)
+        if(epsgCode):
+           self.QMapSettingWindow.mf_map_projection_btepsg.setChecked(True)
+           self.QMapSettingWindow.mf_map_projection_btproj.setChecked(False)
+        else:
+           self.QMapSettingWindow.mf_map_projection_btepsg.setChecked(False)
+           self.QMapSettingWindow.mf_map_projection_btproj.setChecked(True)
+
         self.QMapSettingWindow.mf_map_projection.addItem(currentProj, 0)
 
         epsgList = QtCore.QStringList(list(set(self.proj4List["wktByCode"].keys()+self.proj4List["wktByName"].keys()+self.proj4List["wktByName"].values())))
@@ -102,6 +114,7 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         # ... change completer following mf_map_projection_btepsg/btproj
         self.connect(self.QMapSettingWindow.mf_map_projection_btepsg, QtCore.SIGNAL(_fromUtf8("clicked()")), self.switchProjection)
         self.connect(self.QMapSettingWindow.mf_map_projection_btproj, QtCore.SIGNAL(_fromUtf8("clicked()")), self.switchProjection)
+        self.QMapSettingWindow.connect(self.QMapSettingWindow.mf_map_projection_btlink, QtCore.SIGNAL(_fromUtf8("clicked()")), self.openProjectionInfoLink)
 
         # -- extent
         self.connect(self.QMapSettingWindow.mf_map_extent_auto, QtCore.SIGNAL(_fromUtf8("clicked()")), self.setExtentFields)
@@ -118,9 +131,13 @@ class MapfileEditorApplication(QtGui.QMainWindow):
             self.QMapSettingWindow.mf_map_extent_right.insert(str(self.map.extent.maxx))
 
         # PathesTabForm
-        self.QMapSettingWindow.mf_map_shapepath.setText(self.map.shapepath)
-        self.QMapSettingWindow.mf_map_fontset.setText(self.map.fontset.filename)
-        self.QMapSettingWindow.mf_map_symbolset.setText(self.map.symbolset.filename)
+        if(self.map.shapepath != None):
+            self.QMapSettingWindow.mf_map_shapepath.setText(self.map.shapepath)
+        if(self.map.fontset.filename != None):
+            self.QMapSettingWindow.mf_map_fontset.setText(self.map.fontset.filename)
+        if(self.map.symbolset.filename != None):
+            self.QMapSettingWindow.mf_map_symbolset.setText(self.map.symbolset.filename)
+
         self.QMapSettingWindow.connect(self.QMapSettingWindow.mf_map_shapepath_browse, QtCore.SIGNAL(_fromUtf8("clicked()")), self.openShapePath)
         self.QMapSettingWindow.connect(self.QMapSettingWindow.mf_map_fontset_browse, QtCore.SIGNAL(_fromUtf8("clicked()")), self.openFontSet)
         self.QMapSettingWindow.connect(self.QMapSettingWindow.mf_map_symbolset_browse, QtCore.SIGNAL(_fromUtf8("clicked()")), self.openSymbolSet)
@@ -142,26 +159,56 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         if(self.QMapSettingWindow.Accepted == True):
             self.saveMapSetting()
 
+    def openProjectionInfoLink(self):
+         epsgCode = str(self.QMapSettingWindow.mf_map_projection.currentText()).split(" - ")[1].split(":")[1]
+         QtGui.QDesktopServices.openUrl(QtCore.QUrl("http://spatialreference.org/ref/epsg/"+ epsgCode +"/"))
+
     def switchProjection(self):
+        self.QMapSettingWindow.mf_map_projection_info.setText("")
         currentProj = str(self.QMapSettingWindow.mf_map_projection.currentText())
         if(self.QMapSettingWindow.mf_map_projection_btepsg.isChecked()):
             if(currentProj.startswith("EPSG:")):
                 epsgCode = currentProj
-                epsgName = self.proj4List["nameByEpsg"][currentProj]
+                try:
+                    epsgName = self.proj4List["nameByEpsg"][currentProj]
+                except KeyError:
+                    epsgName = "Unknown EPSG code"
+                    self.QMapSettingWindow.mf_map_projection_info.setText("Error: EPSG not found in data base.")
             elif(currentProj.startswith("+proj=")):
-                epsgCode = self.proj4List["epsgByWkt"][currentProj]
-                epsgName = self.proj4List["nameByEpsg"][epsgCode]
-            self.QMapSettingWindow.mf_map_projection.removeItem(0)
-            self.QMapSettingWindow.mf_map_projection.addItem(epsgName + " - " + epsgCode, 0)
+                try:
+                    epsgCode = self.proj4List["epsgByWkt"][currentProj]
+                except KeyError:
+                    epsgCode = False
+                if(epsgCode):
+                    epsgName = self.proj4List["nameByEpsg"][epsgCode]
+                    self.QMapSettingWindow.mf_map_projection.removeItem(0)
+                    self.QMapSettingWindow.mf_map_projection.addItem(epsgName + " - " + epsgCode, 0)
+                    self.QMapSettingWindow.mf_map_projection_btlink.setEnabled(True)
+                else:
+                    self.QMapSettingWindow.mf_map_projection_info.setText("Error: EPSG not found in data base.")
+                    self.QMapSettingWindow.mf_map_projection_btepsg.setChecked(False)
+                    self.QMapSettingWindow.mf_map_projection_btproj.setChecked(True)
         elif(self.QMapSettingWindow.mf_map_projection_btproj.isChecked()):
+            self.QMapSettingWindow.mf_map_projection_btlink.setEnabled(False)
             if(currentProj.startswith("EPSG:")):
                 epsgCode = currentProj
-            else:
+            elif(len(currentProj.split(" - ")) > 1):
                 currentProj = currentProj.split(" - ")
                 epsgCode = currentProj[1]
-            wktProj = self.proj4List["wktByCode"][epsgCode]
+            elif(currentProj.startswith("+proj")):
+                epsgCode = True
+                wktProj = currentProj
+            else:
+                epsgCode = False
+ 
             self.QMapSettingWindow.mf_map_projection.removeItem(0)
-            self.QMapSettingWindow.mf_map_projection.addItem(wktProj, 0)
+            if(epsgCode):
+               try:
+                   wktProj = self.proj4List["wktByCode"][epsgCode]
+               except KeyError:
+                   self.QMapSettingWindow.mf_map_projection_info.setText("Error: EPSG not found in data base.")
+                   wktProj = currentProj
+               self.QMapSettingWindow.mf_map_projection.addItem(wktProj, 0)
 
     def getProjectionList(self):
         wktByCode = {}
@@ -238,6 +285,7 @@ class MapfileEditorApplication(QtGui.QMainWindow):
                 wktProj = str(self.QMapSettingWindow.mf_map_projection.currentText())
             self.map.setProjection(wktProj)
 
+        # -- Extent
         if(self.QMapSettingWindow.mf_map_extent_manuel.isChecked()):
             self.debugLog('Extent: Save Manuel Extent')
             self.debugLog(str(self.QMapSettingWindow.mf_map_extent_left.text()))
@@ -368,6 +416,10 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.ui.mf_preview.setScene(scene)
         self.ui.mf_preview.show()
 
+    def openDialog(self, item):
+        if(item.row() == 0):
+           self.mapSetting() 
+
     def updateMapStructure(self):
         # reset du model
         self.model = QtGui.QStandardItemModel()
@@ -378,6 +430,13 @@ class MapfileEditorApplication(QtGui.QMainWindow):
 
         self.ui.statusbar.showMessage('Info: mapfile structure added.')
         mapItem = QtGui.QStandardItem('Map parameters')
+        # TODO: *** add signals to mapSetting*
+        #self.connect(mapItem, QtCore.SIGNAL(_fromUtf8("doubleclicked()")), self.mapSetting)
+        #treeView = QtGui.QTreeView()
+        #treeView.setModel(self.model)
+        #self.connect(treeView, QtCore.SIGNAL(_fromUtf8("doubleClicked()")), self.mapSetting) # utiliser QModelIndex a la place de mapItem.index()
+        #print self.ui.mf_structure.viewport
+
         mapItem.setEditable(False)
         parentItem.appendRow(mapItem)
 
