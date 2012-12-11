@@ -58,12 +58,15 @@ class MapfileEditorApplication(QtGui.QMainWindow):
             self.QMapSettingWindow.mf_name.insert(None)
        
         # MainTabform
-        if(self.map.status == self.msLogical['MS_ON']):
+        if(self.map.status == mapscript.MS_ON):
              self.QMapSettingWindow.mf_map_status_on.setChecked(True)
              self.QMapSettingWindow.mf_map_status_off.setChecked(False)
-        else:
-            self.QMapSettingWindow.mf_map_status_on.setChecked(False)
-            self.QMapSettingWindow.mf_map_status_off.setChecked(True)
+        elif(self.map.status == mapscript.MS_DEFAULT):
+             self.QMapSettingWindow.mf_map_status_on.setChecked(False)
+             self.QMapSettingWindow.mf_map_status_off.setChecked(True)
+        elif(self.map.status == mapscript.MS_OFF):
+             self.QMapSettingWindow.mf_map_status_on.setChecked(False)
+             self.QMapSettingWindow.mf_map_status_off.setChecked(True)
 
         # -- outputformat list
         self.QMapSettingWindow.mf_map_outputformat.addItems(self.imageTypes)
@@ -181,12 +184,14 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         # outputFormatTabForm
         # OGCTabForm
         # debugTabForm
-        
-        if(self.map.debug != self.msLogical['MS_OFF']):
+		# TODO: if debug value > 0 then put debug_mode at on
+		# TODO: change mf_map_errorFile into mf_map_config_errorFile in ui and here
+        self.QMapSettingWindow.connect(self.QMapSettingWindow.mf_map_errorfile_browse, QtCore.SIGNAL(_fromUtf8("clicked()")), self.openDebugFile)
+        if(self.map.debug > mapscript.MS_OFF):
             self.QMapSettingWindow.mf_map_debug_on.setChecked(True)
             self.QMapSettingWindow.mf_map_debug_off.setChecked(False)
             self.QMapSettingWindow.mf_map_debug.setValue(self.map.debug)
-        else:
+        elif(self.map.debug == mapscript.MS_OFF):
             self.QMapSettingWindow.mf_map_debug_on.setChecked(False)
             self.QMapSettingWindow.mf_map_debug_off.setChecked(True)
 
@@ -282,6 +287,11 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.QMapSettingWindow.mf_map_extent_bottom.setEnabled(enable)
         self.QMapSettingWindow.mf_map_extent_right.setEnabled(enable)
 
+    def openDebugFile(self):
+        openConfigErrorFile = str(QtGui.QFileDialog.getOpenFileName(None, "Select one file to open", self.firstDir, "Log file (*.log);;Text (*.txt);;All (*.*)"))
+		#TODO: change mf_map_config_errorfile into mf_map_config_errorFile
+        self.QMapSettingWindow.mf_map_config_errorfile.setText(openConfigErrorFile)
+
     def openEncryptionkeyFile(self):
         openEncryptionFile = str(QtGui.QFileDialog.getOpenFileName(None, "Select one file to open", self.firstDir, "Text (*.txt);;All (*.*)"))
         self.QMapSettingWindow.mf_map_config_encryption.setText(openEncryptionFile)
@@ -371,14 +381,15 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         # OGCTabForm
         
         # debugTabForm
-        if(self.QMapSettingWindow.mf_map_debug_on.isChecked() == 'True'):
-            self.map.setConfigOption('MS_ERRORFILE', str(self.QMapSettingWindow.mf_map_config_errorfile.text()))
-            if(self.QMapSettingWindow.mf_map_debug.value() == 0):
-                self.map.debug = self.msLogical['MS_ON']
+        if(str(self.QMapSettingWindow.mf_map_config_errorfile.text()) != ''):
+		     self.map.setConfigOption('MS_ERRORFILE', str(self.QMapSettingWindow.mf_map_config_errorfile.text()))
+        if(self.QMapSettingWindow.mf_map_debug_on.isChecked() == True):
+            if(self.QMapSettingWindow.mf_map_debug.value() == mapscript.MS_OFF):
+                self.map.debug = mapscript.MS_OFF
             else:
                 self.map.debug = self.QMapSettingWindow.mf_map_debug.value()
         else:
-            self.map.debug = self.msLogical['MS_OFF']
+            self.map.debug = mapscript.MS_OFF
             #self.map.setConfigOption('MS_ERRORFILE', '')
 
         self.updateMapStructure()
