@@ -176,7 +176,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="mf_sizewidth">
+       <widget class="QSpinBox" name="mf_map_size_width">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Width of the map.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -196,7 +196,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="mf_sizeheight">
+       <widget class="QSpinBox" name="mf_map_size_height">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Height of the map.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -1091,40 +1091,10 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_31">
         <item>
-         <widget class="QToolButton" name="outputformat_reset">
-          <property name="text">
-           <string>...</string>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/draw-eraser.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/draw-eraser.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="outputformat_delete">
-          <property name="text">
-           <string>...</string>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-close.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-close.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="outputformat_import">
-          <property name="text">
-           <string>...</string>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-import.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-import.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QToolButton" name="outputformat_new">
+          <property name="toolTip">
+           <string>New outputformat</string>
+          </property>
           <property name="text">
            <string>...</string>
           </property>
@@ -1136,12 +1106,60 @@
         </item>
         <item>
          <widget class="QToolButton" name="outputformat_edit">
+          <property name="toolTip">
+           <string>Edit output format selected</string>
+          </property>
           <property name="text">
            <string>...</string>
           </property>
           <property name="icon">
            <iconset>
             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-edit.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-edit.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="outputformat_delete">
+          <property name="toolTip">
+           <string>Delete output format selected</string>
+          </property>
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-close.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-close.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="outputformat_clear">
+          <property name="toolTip">
+           <string>Erase all output format </string>
+          </property>
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/draw-eraser.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/draw-eraser.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="outputformat_import">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Import output format</string>
+          </property>
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-import.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-import.png</iconset>
           </property>
          </widget>
         </item>
@@ -1152,28 +1170,25 @@
       </item>
      </layout>
     </widget>
-    <widget class="QGroupBox" name="outputFormatForm">
+    <widget class="QWidget" name="outputFormatForm" native="true">
      <property name="enabled">
       <bool>false</bool>
      </property>
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>40</y>
+       <y>30</y>
        <width>381</width>
-       <height>271</height>
+       <height>291</height>
       </rect>
-     </property>
-     <property name="title">
-      <string/>
      </property>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>361</width>
-        <height>191</height>
+        <width>371</width>
+        <height>281</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1227,6 +1242,9 @@
            </item>
            <item>
             <widget class="QComboBox" name="mf_gdal_ogr_driver">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="minimumSize">
               <size>
                <width>120</width>
@@ -1270,6 +1288,19 @@
             <string>Off</string>
            </property>
           </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_24">
@@ -1342,19 +1373,85 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="mf_outputformat_options"/>
+          <widget class="QLineEdit" name="mf_outputformat_option_name"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="mf_outputformat_option_value"/>
+         </item>
+         <item>
+          <widget class="QToolButton" name="mf_outputformat_options_add">
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-ok-apply.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-ok-apply.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="mf_outputformat_options_del">
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-cancel.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-cancel.png</iconset>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QDialogButtonBox" name="buttonBox">
+        <widget class="QTableView" name="mf_outputformat_formatoptions_list">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::MultiSelection</enum>
+         </property>
+         <property name="horizontalScrollMode">
+          <enum>QAbstractItemView::ScrollPerItem</enum>
+         </property>
+         <property name="gridStyle">
+          <enum>Qt::DotLine</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDialogButtonBox" name="mf_outputformat_form_buttons">
          <property name="standardButtons">
-          <set>QDialogButtonBox::Reset|QDialogButtonBox::Save</set>
+          <set>QDialogButtonBox::Abort|QDialogButtonBox::Save</set>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
+    </widget>
+    <widget class="QLabel" name="mf_outputformat_message">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>10</y>
+       <width>371</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="ogcTabForm">
@@ -1367,6 +1464,259 @@
     <attribute name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OGC standards configuration.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </attribute>
+    <widget class="QFrame" name="mf_ogc_frame">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>30</y>
+       <width>531</width>
+       <height>291</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>4</x>
+        <y>4</y>
+        <width>521</width>
+        <height>281</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_34">
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>WMS Name</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit"/>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>WFS Name</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_2"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_33">
+         <item>
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>WFS Request Enabled</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_5">
+           <property name="text">
+            <string>GetCapabilities</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_2">
+           <property name="text">
+            <string>GetFeature</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_32">
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>WMS Request Enabled</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_3">
+           <property name="text">
+            <string>GetMap</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_4">
+           <property name="text">
+            <string>GetFeatureInfo</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_6">
+           <property name="text">
+            <string>GetCapabilities</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_35">
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Online Ressource</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_3"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_36">
+         <item>
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>SRS</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_4"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_37">
+         <item>
+          <widget class="QComboBox" name="comboBox">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>200</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_5"/>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton">
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-ok-apply.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-ok-apply.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton_2">
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-cancel.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-cancel.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QListView" name="listView">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>100</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>6</x>
+       <y>3</y>
+       <width>521</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_38">
+      <item>
+       <widget class="QCheckBox" name="mf_ogc_enable">
+        <property name="text">
+         <string>Enable OGC Standards</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_7">
+        <property name="text">
+         <string>INSPIRE compatibility</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
    <widget class="QWidget" name="debugTabForm">
     <property name="toolTip">
@@ -1432,10 +1782,10 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_29">
       <item>
-       <widget class="QLineEdit" name="mf_map_config_errorfile"/>
+       <widget class="QLineEdit" name="mf_map_config_errorFile"/>
       </item>
       <item>
-       <widget class="QPushButton" name="mf_map_errorfile_browse">
+       <widget class="QPushButton" name="mf_map_config_errorFile_browse">
         <property name="text">
          <string>Browse</string>
         </property>
@@ -1456,14 +1806,14 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_7">
     <item>
-     <widget class="QLabel" name="mf_name_label">
+     <widget class="QLabel" name="mf_map_name_label">
       <property name="text">
        <string>Name</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="mf_name">
+     <widget class="QLineEdit" name="mf_map_name">
       <property name="text">
        <string notr="true"/>
       </property>
@@ -1480,11 +1830,11 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>mf_name</tabstop>
+  <tabstop>mf_map_name</tabstop>
   <tabstop>settingsForm</tabstop>
   <tabstop>mapSettingButtonBox</tabstop>
-  <tabstop>mf_sizeheight</tabstop>
-  <tabstop>mf_sizewidth</tabstop>
+  <tabstop>mf_map_size_height</tabstop>
+  <tabstop>mf_map_size_width</tabstop>
   <tabstop>mf_map_units</tabstop>
   <tabstop>mf_map_outputformat</tabstop>
   <tabstop>mf_map_status_on</tabstop>
@@ -1497,26 +1847,8 @@
   <tabstop>mf_map_extent_bottom</tabstop>
   <tabstop>mf_map_extent_left</tabstop>
  </tabstops>
- <resources>
-  <include location="mapfileEditor.qrc"/>
- </resources>
+ <resources/>
  <connections>
-  <connection>
-   <sender>mapSettingButtonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>MapSetting</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>550</x>
-     <y>390</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>mapSettingButtonBox</sender>
    <signal>rejected()</signal>
@@ -1529,6 +1861,22 @@
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mapSettingButtonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>MapSetting</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>550</x>
+     <y>390</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
      <y>274</y>
     </hint>
    </hints>

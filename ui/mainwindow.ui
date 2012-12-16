@@ -158,6 +158,46 @@
      <property name="sizeConstraint">
       <enum>QLayout::SetNoConstraint</enum>
      </property>
+     <item row="0" column="0">
+      <widget class="QTreeView" name="mf_structure">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>500</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::CurrentChanged|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+       <property name="verticalScrollMode">
+        <enum>QAbstractItemView::ScrollPerPixel</enum>
+       </property>
+       <property name="uniformRowHeights">
+        <bool>true</bool>
+       </property>
+       <property name="animated">
+        <bool>true</bool>
+       </property>
+       <property name="headerHidden">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="1">
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="sizeConstraint">
@@ -172,7 +212,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/transform-move.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/transform-move.png</iconset>
+             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/zoom-original.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/zoom-original.png</iconset>
            </property>
           </widget>
          </item>
@@ -181,12 +221,31 @@
            <property name="text">
             <string>...</string>
            </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/zoom-in.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/zoom-in.png</iconset>
+           </property>
           </widget>
          </item>
          <item>
           <widget class="QToolButton" name="toolButton_3">
            <property name="text">
             <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/zoom-out.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/zoom-out.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton_4">
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/transform-move.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/transform-move.png</iconset>
            </property>
           </widget>
          </item>
@@ -234,40 +293,6 @@
         </widget>
        </item>
       </layout>
-     </item>
-     <item row="0" column="0">
-      <widget class="QTreeView" name="mf_structure">
-       <property name="minimumSize">
-        <size>
-         <width>200</width>
-         <height>500</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>200</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Sunken</enum>
-       </property>
-       <property name="editTriggers">
-        <set>QAbstractItemView::CurrentChanged|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
-       </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
-       </property>
-       <property name="animated">
-        <bool>true</bool>
-       </property>
-       <property name="headerHidden">
-        <bool>true</bool>
-       </property>
-      </widget>
      </item>
     </layout>
    </widget>
