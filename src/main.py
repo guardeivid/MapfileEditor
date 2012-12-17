@@ -23,10 +23,12 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.tmp = {'outputformat': None}
         self.debugLevel = {'ERROR': 0, 'WARNING': 3, 'INFO': 5}
         self.msLogical = {'MS_TRUE':1, 'MS_ON':1, 'MS_YES':1, 'MS_FALSE':0, 'MS_OFF':0, 'MS_NO':0}
+        #TODO: use dict instead of list and use .keys() for ui part
         self.units = ['inches', 'feet' ,'miles', 'meters', 'kilometers', 'dd', 'pixels', 'pourcentages', 'nauticalmiles']
         self.layerTypes = ['point', 'line', 'polygon', 'raster', 'annotation', 'query', 'circle', 'tileindex']
         self.connectionTypes = ['inline', 'shapefile', 'tiled shapefile', 'sde', 'ogr','postgis','wms', 'oracle spatial', 'wfs', 'graticule', 'mygis', 'raster']
-        self.imageMode = ['PC256','RGB', 'RGBA', 'INT16', 'FLOAT32', 'FEATURE']
+        self.imageMode = {'BYTE': mapscript.MS_IMAGEMODE_BYTE, 'PC256': mapscript.MS_IMAGEMODE_PC256,'RGB': mapscript.MS_IMAGEMODE_RGB, 'RGBA':mapscript.MS_IMAGEMODE_RGBA, 'INT16': mapscript.MS_IMAGEMODE_INT16, 'FLOAT32': mapscript.MS_IMAGEMODE_FLOAT32, 'FEATURE': mapscript.MS_IMAGEMODE_FEATURE}
+        self.imageModeKeys = dict((v,k) for k, v in self.imageMode.iteritems())
         self.driver = ['AGG/PNG', 'AGG/JPEG', 'GD/GIF', 'GD/PNG','TEMPLATE', 'GDAL', 'OGR']
         self.imageTypes = ['jpeg' ,'pdf','png' ,'svg']
         self.firstDir = '~/'
@@ -239,19 +241,21 @@ class MapfileEditorApplication(QtGui.QMainWindow):
     def addConfigOptionsOutputFormat(self):
         value = str(self.QMapSettingWindow.mf_outputformat_option_value.text())
         option = str(self.QMapSettingWindow.mf_outputformat_option_name.text())
-        if( value != '' and option != ''):
-            #TODO: check that option is not already in QListView
-            outputOptionsParentItem = self.QMapSettingWindow.outputformat_options_model.invisibleRootItem()
-       
-            outputFormatOptionNameItem = QtGui.QStandardItem(option)
-            outputFormatOptionNameItem.setEditable(False)
-            outputFormatOptionValueItem = QtGui.QStandardItem(value)
-
-            outputOptionsParentItem.appendRow(list([outputFormatOptionNameItem, outputFormatOptionValueItem]))
-            self.QMapSettingWindow.mf_outputformat_formatoptions_list.resizeRowsToContents()
-
+        if( value != '' and option != '' ):
+            self.addConfigOptionsToModel(name, value)
             self.QMapSettingWindow.mf_outputformat_option_value.setText('')
             self.QMapSettingWindow.mf_outputformat_option_name.setText('')
+
+    def addConfigOptionsToModel(self, name, value):
+        #TODO: check that option is not already in QListView
+        outputOptionsParentItem = self.QMapSettingWindow.outputformat_options_model.invisibleRootItem()
+       
+        outputFormatOptionNameItem = QtGui.QStandardItem(option)
+        outputFormatOptionNameItem.setEditable(False)
+        outputFormatOptionValueItem = QtGui.QStandardItem(value)
+
+        outputOptionsParentItem.appendRow(list([outputFormatOptionNameItem, outputFormatOptionValueItem]))
+        self.QMapSettingWindow.mf_outputformat_formatoptions_list.resizeRowsToContents()
 
     def delConfigOptionsOutputFormat(self):
         items = self.QMapSettingWindow.mf_outputformat_formatoptions_list.selectedIndexes()
@@ -282,22 +286,35 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         item = self.QMapSettingWindow.mf_outputformat_list.selectedIndexes()[0]
         if(item.data().toString() != self.map.outputformat.name):
             #TODO: remove only in the QTreeView List
-            del self.tmp['outputformat'][str(item.datat().text())]
+            del self.tmp['outputformat'][str(item.data().text())]
             self.updateOutputformatList()
         else:
             self.QMapSettingWindow.mf_outputformat_message.setText("Error: You can't remove default outputformat!")
 
     def saveOutputFormatForm(self):
-        #TODO: Save outputformat in self.tmp['outputformat'] using name
-        ofObj = mapscript.outputFormatObj(str(self.QMapSettingWindow.mf_outputformat_driver.currentText()), str(self.QMapSettingWindow.mf_outputformat_name.text()))
-        ofObj.transparent = mapscript.MS_ON
+        self.QMapSettingWindow.mf_outputformat_message.setText("")
+        ofName = str(self.QMapSettingWindow.mf_outputformat_name.text())
+        ofObj = mapscript.outputFormatObj(str(self.QMapSettingWindow.mf_outputformat_driver.currentText()), ofName)
+        
+        if(self.QMapSettingWindow.mf_outputformat_transparent_on.isChecked() == True):
+           ofObj.transparent = mapscript.MS_ON
+        elif(self.QMapSettingWindow.mf_outputformat_transparent_off.isChecked() == True):
+           ofObj.transparent = mapscript.MS_OFF
         ofObj.setExtension(str(self.QMapSettingWindow.mf_outputformat_extension.text()))
-        # .. imagemode
-        ofObj.setOption('BAND_COUNT', 'MS_IMAGEMODE_BYTE')
-        # ofObj.setMimetype()
-        # ofObj.setOption(name, value)
-        ofObj.validate()
+
+        ofObj.imagemode = mapscript.MS_IMAGEMODE_INT16
+        ofObj.setMimetype(str(self.QMapSettingWindow.mf_outputformat_mimetype.text()))
+        
+
+        for index in range(0, self.QMapSettingWindow.mf_outputformat_formatoptions_list.model().rowCount()):
+            name = str(self.QMapSettingWindow.mf_outputformat_formatoptions_list.model().item(index, 0).text())
+	    value = str(self.QMapSettingWindow.mf_outputformat_formatoptions_list.model().item(index, 1).text())
+
+            ofObj.setOption(name, value)
+
+        self.tmp['outputformat'][ofName] = ofObj
         self.resetOutputFormatForm()
+        self.updateOutputformatList()
 
     def newOutputFormatForm(self):
         self.resetOutputFormatForm()
@@ -317,7 +334,7 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.QMapSettingWindow.mf_outputformat_extension.setText("")
 
         self.QMapSettingWindow.mf_outputformat_imagemode.clear()
-        self.QMapSettingWindow.mf_outputformat_imagemode.addItems(self.imageMode)
+        self.QMapSettingWindow.mf_outputformat_imagemode.addItems(self.imageMode.keys())
         self.QMapSettingWindow.mf_outputformat_mimetype.setText("")
         self.QMapSettingWindow.outputFormatForm.setEnabled(False)
 
@@ -332,6 +349,7 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         return gdalogrDrivers
 
     def updateOutputFormatForm(self, item = False):
+        self.resetOutputFormatForm()
         self.QMapSettingWindow.mf_outputformat_message.setText("")
         if(item == False):
             try:
@@ -341,7 +359,7 @@ class MapfileEditorApplication(QtGui.QMainWindow):
                 return False
 
         self.QMapSettingWindow.outputFormatForm.setEnabled(True)
-        outputformat = self.map.getOutputFormatByName(str(item.data().toString()))
+        outputformat = self.tmp['outputformat'][str(item.data().toString())]
         self.QMapSettingWindow.mf_outputformat_name.setText(str(outputformat.name))
 
         #..driver
@@ -356,13 +374,10 @@ class MapfileEditorApplication(QtGui.QMainWindow):
 
         gdalogrDrivers = self.getGdalogrDrivers()
 
-        self.QMapSettingWindow.mf_outputformat_imagemode.addItems(self.imageMode)
-        self.QMapSettingWindow.mf_outputformat_imagemode.setCurrentIndex(outputformat.imagemode)
+        self.QMapSettingWindow.mf_outputformat_imagemode.setCurrentIndex(self.QMapSettingWindow.mf_outputformat_imagemode.findText(self.imageModeKeys[outputformat.imagemode]))
 
-        self.QMapSettingWindow.mf_outputformat_driver.addItems(self.driver)
         self.QMapSettingWindow.mf_outputformat_driver.setCurrentIndex(self.QMapSettingWindow.mf_outputformat_driver.findText(outputformat.driver))
 
-        self.QMapSettingWindow.mf_gdal_ogr_driver.addItems(gdalogrDrivers)
         self.QMapSettingWindow.mf_gdal_ogr_driver.setEnabled(True)
 
         if(outputformat.driver.startswith('GDAL/') or outputformat.driver.startswith('OGR/')):
@@ -377,6 +392,9 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.QMapSettingWindow.mf_outputformat_mimetype.setText(str(outputformat.mimetype))
         # .. options
         #TODO:
+        #for i in range(outputformat.numformatoptions))
+        #    
+        #    self.addConfigOptionsToModel(name, value)
 
     def openProjectionInfoLink(self):
          epsgCode = str(self.QMapSettingWindow.mf_map_projection.currentText()).split(" - ")[1].split(":")[1]
@@ -555,9 +573,10 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.map.setRotation(float(self.QMapSettingWindow.mf_map_angle.value()))
 
         # OutputFormatTabForm
-	# TODO: for each item in self.tmp['outputformat'], add outputformat obj in map obj. Take care of the existing
-        #format = mapscript.outputFormatObj(self.QMapSettingWindow.mf_default_outputformat)
-        #self.map.setOutputFormat(format)
+        for name in self.tmp['outputformat'].keys():
+            # TODO: remove all output format
+            #self.map.removeOutputFormat(self.tmp['outputformat'][name].name)
+            self.map.appendOutputFormat(self.tmp['outputformat'][name])
         
         # OGCTabForm
         
