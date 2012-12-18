@@ -27,10 +27,11 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.units = ['inches', 'feet' ,'miles', 'meters', 'kilometers', 'dd', 'pixels', 'pourcentages', 'nauticalmiles']
         self.layerTypes = ['point', 'line', 'polygon', 'raster', 'annotation', 'query', 'circle', 'tileindex']
         self.connectionTypes = ['inline', 'shapefile', 'tiled shapefile', 'sde', 'ogr','postgis','wms', 'oracle spatial', 'wfs', 'graticule', 'mygis', 'raster']
-        self.imageMode = {'BYTE': mapscript.MS_IMAGEMODE_BYTE, 'PC256': mapscript.MS_IMAGEMODE_PC256,'RGB': mapscript.MS_IMAGEMODE_RGB, 'RGBA':mapscript.MS_IMAGEMODE_RGBA, 'INT16': mapscript.MS_IMAGEMODE_INT16, 'FLOAT32': mapscript.MS_IMAGEMODE_FLOAT32, 'FEATURE': mapscript.MS_IMAGEMODE_FEATURE}
+        self.imageMode = {'BYTE': mapscript.MS_IMAGEMODE_BYTE, 'PC256': mapscript.MS_IMAGEMODE_PC256,'RGB': mapscript.MS_IMAGEMODE_RGB, 'RGBA': mapscript.MS_IMAGEMODE_RGBA, 'INT16': mapscript.MS_IMAGEMODE_INT16, 'FLOAT32': mapscript.MS_IMAGEMODE_FLOAT32, 'FEATURE': mapscript.MS_IMAGEMODE_FEATURE}
         self.imageModeKeys = dict((v,k) for k, v in self.imageMode.iteritems())
         self.driver = ['AGG/PNG', 'AGG/JPEG', 'GD/GIF', 'GD/PNG','TEMPLATE', 'GDAL', 'OGR']
         self.imageTypes = ['jpeg' ,'pdf','png' ,'svg']
+        self.ogcMapOptions = ['', 'ows_http_max_age', 'ows_schemas_location', 'ows_sld_enabled', 'ows_updatesequence', 'wms_abstract', 'wms_accessconstraints', 'wms_addresstype', 'wms_address', 'wms_city', 'wms_stateorprovince', 'wms_postcode', 'wms_country', 'wms_attribution_logourl_format', 'wms_attribution_logourl_height', 'wms_attribution_logourl_href', 'wms_attribution_logourl_width', 'wms_attribution_onlineresource', 'wms_attribution_title', 'wms_bbox_extended', 'wms_contactelectronicmailaddress', 'wms_contactfacsimiletelephone', 'wms_contactperson', 'wms_contactorganization', 'wms_contactposition', 'wms_contactvoicetelephone', 'wms_encoding', 'wms_feature_info_mime_type', 'wms_fees', 'wms_getcapabilities_version', 'wms_getlegendgraphic_formatlist', 'wms_getmap_formatlist', 'wms_keywordlist', 'wms_keywordlist_vocabulary', 'wms_keywordlist_[vocabulary name]_items', 'wms_languages', 'wms_layerlimit', 'wms_resx', 'wms_resy', 'wms_rootlayer_abstract', 'wms_rootlayer_keywordlist', 'wms_rootlayer_title', 'wms_service_onlineresource', 'wms_timeformat', 'ows_schemas_location', 'ows_updatesequence', 'wfs_abstract', 'wfs_accessconstraints', 'wfs_encoding', 'wfs_feature_collection', 'wfs_fees', 'wfs_getcapabilities_version', 'wfs_keywordlist', 'wfs_maxfeatures', 'wfs_namespace_prefix', 'wfs_namespace_uri', 'wfs_service_onlineresource']
         self.firstDir = '~/'
 
         #get ESPG code and wkt proj4 string list 
@@ -211,6 +212,71 @@ class MapfileEditorApplication(QtGui.QMainWindow):
 
         # OGCTabForm
         self.connect(self.QMapSettingWindow.mf_ogc_enable, QtCore.SIGNAL(_fromUtf8("clicked()")), self.enableOgcFrame)
+        wmsMetaData = {}
+        key = self.map.getFirstMetaDataKey()
+        wmsMetaData[key] = self.map.getMetaData(key)
+        key = self.map.getNextMetaDataKey(key)
+        while key != None:
+            wmsMetaData[key] = self.map.getMetaData(key)
+            key = self.map.getNextMetaDataKey(key)
+
+        if('wms_title' in wmsMetaData):
+            self.QMapSettingWindow.mf_map_web_md_wms_title.setText(wmsMetaData['wms_title'])
+            del wmsMetaData['wms_title']
+        if('wfs_title' in wmsMetaData):
+            self.QMapSettingWindow.mf_map_web_md_wfs_title.setText(wmsMetaData['wfs_title'])
+            del wmsMetaData['wfs_title']
+        if('ows_title' in wmsMetaData):
+            self.QMapSettingWindow.mf_map_web_md_wms_title.setText(wmsMetaData['ows_title'])
+            self.QMapSettingWindow.mf_map_web_md_wfs_title.setText(wmsMetaData['ows_title'])
+            del wmsMetaData['ows_title']
+
+        if('wms_enable_request' in wmsMetaData):
+            tmp = self.getEnabledRequest(wmsMetaData['wms_enable_request'].split(' '))
+            self.QMapSettingWindow.mf_ogc_enable.setChecked(True)
+            self.enableOgcFrame()
+            self.updateEnabledRequestForm(tmp)
+            del wmsMetaData['wms_enable_request']
+        if('wfs_enable_request' in wmsMetaData):
+            tmp = self.getEnabledRequest(wmsMetaData['wfs_enable_request'].split(' '))
+            self.QMapSettingWindow.mf_ogc_enable.setChecked(True)
+            self.enableOgcFrame()
+            self.updateEnabledRequestForm(tmp, 'wfs')
+            del wmsMetaData['wfs_enable_request']
+        if('ows_enable_request' in wmsMetaData):
+            tmp = self.getEnabledRequest(wmsMetaData['ows_enable_request'].split(' '))
+            self.QMapSettingWindow.mf_ogc_enable.setChecked(True)
+            self.enableOgcFrame()
+            self.updateEnabledRequestForm(tmp, 'ows')
+            del wmsMetaData['ows_enable_request']
+
+        if('wms_onlineresource' in wmsMetaData):
+            self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.setText(wmsMetaData['wms_onlineresource'])
+            del wmsMetaData['wms_onlineresource']
+        if('wfs_onlineresource' in wmsMetaData):
+            self.QMapSettingWindow.mf_map_web_md_wfs_onlineressource.setText(wmsMetaData['wfs_onlineresource'])
+            del wmsMetaData['wfs_onlineresource']
+        if('ows_onlineresource' in wmsMetaData):
+            self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.setText(wmsMetaData['ows_onlineresource'])
+            self.QMapSettingWindow.mf_map_web_md_wfs_onlineressource.setText(wmsMetaData['ows_onlineresource'])
+            del wmsMetaData['ows_onlineresource']
+
+        if('wms_srs' in wmsMetaData):
+            self.QMapSettingWindow.mf_map_web_md_wms_srs.setText(wmsMetaData['wms_srs'])
+            del wmsMetaData['wms_srs']
+        if('wfs_srs' in wmsMetaData):
+            self.QMapSettingWindow.mf_map_web_md_wfs_srs.setText(wmsMetaData['wfs_srs'])
+            del wmsMetaData['wfs_srs']
+        if('ows_srs' in wmsMetaData):
+            self.QMapSettingWindow.mf_map_web_md_wms_srs.setText(wmsMetaData['ows_srs'])
+            self.QMapSettingWindow.mf_map_web_md_wfs_srs.setText(wmsMetaData['ows_srs'])
+            del wmsMetaData['ows_srs']
+
+        self.QMapSettingWindow.mf_map_web_md_option_name.addItems(self.ogcMapOptions)
+        self.createOgcOptionsModel()
+
+        self.connect(self.QMapSettingWindow.mf_map_web_md_options_add, QtCore.SIGNAL(_fromUtf8("clicked()")), self.addConfigOptionsOgc)
+        self.connect(self.QMapSettingWindow.mf_map_web_md_options_del, QtCore.SIGNAL(_fromUtf8("clicked()")), self.delConfigOptionsOgc)
 
         # debugTabForm
         self.QMapSettingWindow.connect(self.QMapSettingWindow.mf_map_config_errorFile_browse, QtCore.SIGNAL(_fromUtf8("clicked()")), self.openDebugFile)
@@ -227,6 +293,51 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         if(self.QMapSettingWindow.Accepted == True):
             self.saveMapSetting()
 
+    def createOgcOptionsModel(self):
+        self.QMapSettingWindow.ogcOptions_model = QtGui.QStandardItemModel(0, 2)
+        self.QMapSettingWindow.ogcOptions_model.setHorizontalHeaderLabels(list(['Name', 'Value']))
+        self.QMapSettingWindow.mf_map_web_md_options_list.setModel(self.QMapSettingWindow.ogcOptions_model)
+
+    def updateEnabledRequestForm(self, requests, service = 'wms'):
+        for request in requests:
+            if (request == 'GetCapabilities' and (service == 'wms' or service == 'ows')):
+                self.QMapSettingWindow.mf_map_web_md_wms_enable_gc.setChecked(True)
+            elif(request == 'GetCapabilities' and (service == 'wfs' or service == 'ows')):
+                self.QMapSettingWindow.mf_map_web_md_wfs_enable_gc.setChecked(True)
+            if(request == 'GetMap'):
+                self.QMapSettingWindow.mf_map_web_md_wms_enable_gm.setChecked(True)
+            if(request == 'GetLegendGraphic'):
+                self.QMapSettingWindow.mf_map_web_md_wms_enable_glg.setChecked(True)
+            if(request == 'GetFeatureInfo'):
+                self.QMapSettingWindow.mf_map_web_md_wms_enable_gfi.setChecked(True)
+            if(request == 'GetFeature'):
+                self.QMapSettingWindow.mf_map_web_md_wfs_enable_gf.setChecked(True)
+            if(request == 'DescribeFeatureType'):
+                self.QMapSettingWindow.mf_map_web_md_wfs_enable_dft.setChecked(True)
+                
+    def getEnabledRequest(self, enableRequest, service = 'wms'):
+        wmsRequests = ['GetCapabilities','GetMap','GetLegendGraphic','GetFeatureInfo']
+        wfsRequests = ['GetCapabilities', 'GetFeature', 'DescribeFeatureType']
+        tmp = []
+        enableRequest.sort()
+        if( enableRequest.count('*') > 0):
+            if(service == 'wms'):
+                tmp = wmsRequests
+            elif( service == 'wfs'):
+                tmp = wfsRequests
+
+        #if( enableRequest.count('!*') > 0):
+        #     nothing to do!
+        
+        for i in range(len(enableRequest)):
+            if( enableRequest[i].startswith('!') ):
+                request = enableRequest[i][1:len(enableRequest[i])]
+                tmp.pop(request)
+            else:
+                tmp.append(enableRequest[i])
+
+        return tmp
+
     def enableOgcFrame(self):
         if(self.QMapSettingWindow.mf_ogc_enable.isChecked() == True):
             self.QMapSettingWindow.mf_ogc_frame.setEnabled(True)
@@ -238,29 +349,51 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.QMapSettingWindow.outputformat_options_model.setHorizontalHeaderLabels(list(['Name', 'Value']))
         self.QMapSettingWindow.mf_outputformat_formatoptions_list.setModel(self.QMapSettingWindow.outputformat_options_model)
 
+    def addConfigOptionsOgc(self):
+        tableView = self.QMapSettingWindow.mf_map_web_md_options_list
+        value = str(self.QMapSettingWindow.mf_map_web_md_option_value.text())
+        optionName = str(self.QMapSettingWindow.mf_map_web_md_option_name.currentText())
+        if( value != '' and optionName != '' ):
+            self.addConfigOptionsToModel(optionName, value, tableView)
+            self.QMapSettingWindow.mf_map_web_md_option_value.setText('')
+            #TODO: put to the first item
+            #self.QMapSettingWindow.mf_map_web_md_option_name.currentText('')
+
     def addConfigOptionsOutputFormat(self):
+        tableView = self.QMapSettingWindow.mf_outputformat_formatoptions_list
         value = str(self.QMapSettingWindow.mf_outputformat_option_value.text())
-        option = str(self.QMapSettingWindow.mf_outputformat_option_name.text())
-        if( value != '' and option != '' ):
-            self.addConfigOptionsToModel(name, value)
+        optionName = str(self.QMapSettingWindow.mf_outputformat_option_name.text())
+        if( value != '' and optionName != '' ):
+            self.addConfigOptionsToModel(optionName, value, tableView)
             self.QMapSettingWindow.mf_outputformat_option_value.setText('')
             self.QMapSettingWindow.mf_outputformat_option_name.setText('')
 
-    def addConfigOptionsToModel(self, name, value):
+    def addConfigOptionsToModel(self, name, value, tableView = None):
         #TODO: check that option is not already in QListView
-        outputOptionsParentItem = self.QMapSettingWindow.outputformat_options_model.invisibleRootItem()
+        if(tableView != None):
+            outputOptionsParentItem = tableView.model().invisibleRootItem()
        
-        outputFormatOptionNameItem = QtGui.QStandardItem(option)
-        outputFormatOptionNameItem.setEditable(False)
-        outputFormatOptionValueItem = QtGui.QStandardItem(value)
+            outputFormatOptionNameItem = QtGui.QStandardItem(name)
+            outputFormatOptionNameItem.setEditable(False)
+            outputFormatOptionValueItem = QtGui.QStandardItem(value)
 
-        outputOptionsParentItem.appendRow(list([outputFormatOptionNameItem, outputFormatOptionValueItem]))
-        self.QMapSettingWindow.mf_outputformat_formatoptions_list.resizeRowsToContents()
+            outputOptionsParentItem.appendRow(list([outputFormatOptionNameItem, outputFormatOptionValueItem]))
+            tableView.resizeRowsToContents()
 
     def delConfigOptionsOutputFormat(self):
-        items = self.QMapSettingWindow.mf_outputformat_formatoptions_list.selectedIndexes()
-        for item in items:
-            self.QMapSettingWindow.mf_outputformat_formatoptions_list.model().removeRow(item.row())
+        tableView = self.QMapSettingWindow.mf_outputformat_formatoptions_list
+        self.delConfigOptionsFromModel(tableView)
+
+    def delConfigOptionsOgc(self):
+        tableView = self.QMapSettingWindow.mf_map_web_md_options_list
+        self.delConfigOptionsFromModel(tableView)
+
+    def delConfigOptionsFromModel(self, tableView = None):
+
+        if(tableView != None):
+            items = tableView.selectedIndexes()
+            for item in items:
+                tableView.model().removeRow(item.row())
 
         return True
 
@@ -285,7 +418,6 @@ class MapfileEditorApplication(QtGui.QMainWindow):
     def deleteItemOutputFormat(self):
         item = self.QMapSettingWindow.mf_outputformat_list.selectedIndexes()[0]
         if(item.data().toString() != self.map.outputformat.name):
-            #TODO: remove only in the QTreeView List
             del self.tmp['outputformat'][str(item.data().text())]
             self.updateOutputformatList()
         else:
@@ -302,9 +434,8 @@ class MapfileEditorApplication(QtGui.QMainWindow):
            ofObj.transparent = mapscript.MS_OFF
         ofObj.setExtension(str(self.QMapSettingWindow.mf_outputformat_extension.text()))
 
-        ofObj.imagemode = mapscript.MS_IMAGEMODE_INT16
+        ofObj.imagemode = self.imageMode[str(self.QMapSettingWindow.mf_outputformat_imagemode.currentText())]
         ofObj.setMimetype(str(self.QMapSettingWindow.mf_outputformat_mimetype.text()))
-        
 
         for index in range(0, self.QMapSettingWindow.mf_outputformat_formatoptions_list.model().rowCount()):
             name = str(self.QMapSettingWindow.mf_outputformat_formatoptions_list.model().item(index, 0).text())
@@ -338,6 +469,8 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.QMapSettingWindow.mf_outputformat_mimetype.setText("")
         self.QMapSettingWindow.outputFormatForm.setEnabled(False)
 
+        self.QMapSettingWindow.mf_outputformat_option_value.setText('')
+        self.QMapSettingWindow.mf_outputformat_option_name.setText('')
         self.createOutputFormatOptionsModel()
 
     def getGdalogrDrivers(self):

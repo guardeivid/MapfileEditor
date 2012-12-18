@@ -56,9 +56,9 @@
   <widget class="QTabWidget" name="settingsForm">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>0</x>
      <y>39</y>
-     <width>541</width>
+     <width>561</width>
      <height>351</height>
     </rect>
    </property>
@@ -66,7 +66,7 @@
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Map settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="mainTabForm">
     <property name="toolTip">
@@ -1472,7 +1472,7 @@
       <rect>
        <x>0</x>
        <y>30</y>
-       <width>531</width>
+       <width>551</width>
        <height>291</height>
       </rect>
      </property>
@@ -1485,9 +1485,9 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>4</x>
-        <y>4</y>
-        <width>521</width>
+        <x>3</x>
+        <y>0</y>
+        <width>541</width>
         <height>281</height>
        </rect>
       </property>
@@ -1495,14 +1495,14 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_34">
          <item>
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="mf_map_web_md_wms_title__label">
            <property name="text">
-            <string>WMS Name</string>
+            <string>WMS Title</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit"/>
+          <widget class="QLineEdit" name="mf_map_web_md_wms_title"/>
          </item>
          <item>
           <spacer name="horizontalSpacer_6">
@@ -1518,37 +1518,62 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="label_4">
+          <widget class="QLabel" name="mf_map_web_md_wfs_title__label">
            <property name="text">
-            <string>WFS Name</string>
+            <string>WFS Title</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_2"/>
+          <widget class="QLineEdit" name="mf_map_web_md_wfs_title"/>
          </item>
         </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_33">
          <item>
-          <widget class="QLabel" name="label_6">
+          <widget class="QLabel" name="mf_map_web_md_wfs_enable_label">
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>WFS Request Enabled</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox_5">
+          <widget class="QCheckBox" name="mf_map_web_md_wfs_enable_gc">
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>GetCapabilities</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox_2">
+          <widget class="QCheckBox" name="mf_map_web_md_wfs_enable_gf">
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>GetFeature</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="mf_map_web_md_wfs_enable_dft">
+           <property name="text">
+            <string>DescribeFeatureType</string>
            </property>
           </widget>
          </item>
@@ -1557,67 +1582,136 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_32">
          <item>
-          <widget class="QLabel" name="label_7">
+          <widget class="QLabel" name="mf_map_web_md_wms_enable_label">
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>WMS Request Enabled</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox_3">
-           <property name="text">
-            <string>GetMap</string>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <item>
+            <widget class="QCheckBox" name="mf_map_web_md_wms_enable_gm">
+             <property name="maximumSize">
+              <size>
+               <width>70</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>GetMap</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="mf_map_web_md_wms_enable_gc">
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>GetCapabilities</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox_4">
-           <property name="text">
-            <string>GetFeatureInfo</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="checkBox_6">
-           <property name="text">
-            <string>GetCapabilities</string>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QCheckBox" name="mf_map_web_md_wms_enable_glg">
+             <property name="maximumSize">
+              <size>
+               <width>150</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>GetLegendGraphic</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="mf_map_web_md_wms_enable_gfi">
+             <property name="maximumSize">
+              <size>
+               <width>115</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>GetFeatureInfo</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_35">
          <item>
-          <widget class="QLabel" name="label_5">
+          <widget class="QLabel" name="mf_map_web_md_onlineressource_label">
            <property name="text">
-            <string>Online Ressource</string>
+            <string>WMS Online Ressource</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_3"/>
+          <widget class="QLineEdit" name="mf_map_web_md_wms_onlineressource"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_39">
+         <item>
+          <widget class="QLabel" name="mf_map_web_md_wfs_onlineressource_label">
+           <property name="text">
+            <string>WFS Online Ressource</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="mf_map_web_md_wfs_onlineressource"/>
          </item>
         </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_36">
          <item>
-          <widget class="QLabel" name="label_8">
+          <widget class="QLabel" name="mf_map_web_md_wms_srs_label">
            <property name="text">
             <string>SRS</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_4"/>
+          <widget class="QLineEdit" name="mf_map_web_md_wms_srs"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="mf_map_web_md_wfs_srs_label">
+           <property name="text">
+            <string>WFS SRS</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="mf_map_web_md_wfs_srs"/>
          </item>
         </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_37">
          <item>
-          <widget class="QComboBox" name="comboBox">
+          <widget class="QComboBox" name="mf_map_web_md_option_name">
            <property name="minimumSize">
             <size>
              <width>200</width>
@@ -1630,13 +1724,26 @@
              <height>16777215</height>
             </size>
            </property>
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+           <property name="insertPolicy">
+            <enum>QComboBox::InsertAtTop</enum>
+           </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_5"/>
+          <widget class="QLineEdit" name="mf_map_web_md_option_value">
+           <property name="maximumSize">
+            <size>
+             <width>240</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="toolButton">
+          <widget class="QToolButton" name="mf_map_web_md_options_add">
            <property name="text">
             <string>...</string>
            </property>
@@ -1647,7 +1754,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="toolButton_2">
+          <widget class="QToolButton" name="mf_map_web_md_options_del">
            <property name="text">
             <string>...</string>
            </property>
@@ -1660,7 +1767,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QListView" name="listView">
+        <widget class="QTableView" name="mf_map_web_md_options_list">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -1684,7 +1791,7 @@
        <x>6</x>
        <y>3</y>
        <width>521</width>
-       <height>23</height>
+       <height>26</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_38">
@@ -1709,7 +1816,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBox_7">
+       <widget class="QCheckBox" name="mf_inspire_on">
         <property name="text">
          <string>INSPIRE compatibility</string>
         </property>
