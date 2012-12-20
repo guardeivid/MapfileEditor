@@ -70,6 +70,7 @@ MAP
       "wms_srs"	"EPSG:4326"
       "wms_onlineresource"	"http://localhost/cgi-bin/mapserv.exe?map=wms.map&"
       "wms_title"	"World Map"
+      "wms_enable_request" "GetCapabilities GetMap"
     END # METADATA
   END # WEB
 

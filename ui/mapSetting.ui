@@ -1688,8 +1688,20 @@
         <layout class="QHBoxLayout" name="horizontalLayout_36">
          <item>
           <widget class="QLabel" name="mf_map_web_md_wms_srs_label">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
-            <string>SRS</string>
+            <string>WMS SRS</string>
            </property>
           </widget>
          </item>

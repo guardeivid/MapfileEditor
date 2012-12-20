@@ -504,7 +504,6 @@ class MapfileEditorApplication(QtGui.QMainWindow):
              self.QMapSettingWindow.mf_outputformat_transparent_on.setChecked(True)
              self.QMapSettingWindow.mf_outputformat_transparent_off.setChecked(False)
 
-
         gdalogrDrivers = self.getGdalogrDrivers()
 
         self.QMapSettingWindow.mf_outputformat_imagemode.setCurrentIndex(self.QMapSettingWindow.mf_outputformat_imagemode.findText(self.imageModeKeys[outputformat.imagemode]))
@@ -524,7 +523,7 @@ class MapfileEditorApplication(QtGui.QMainWindow):
 
         self.QMapSettingWindow.mf_outputformat_mimetype.setText(str(outputformat.mimetype))
         # .. options
-        #TODO:
+        #TODO: add config output format to tableView
         #for i in range(outputformat.numformatoptions))
         #    
         #    self.addConfigOptionsToModel(name, value)
@@ -712,7 +711,44 @@ class MapfileEditorApplication(QtGui.QMainWindow):
             self.map.appendOutputFormat(self.tmp['outputformat'][name])
         
         # OGCTabForm
+        #TODO: add enable_request metadata + if not defined or if checkox unchek remove all metadatas
+        mdKey = self.map.getFirstMetaDataKey()
+        while mdKey != None:
+            self.map.removeMetaData(mdKey)
+            mdKey = self.map.getNextMetaDataKey(mdKey)
         
+        if(self.QMapSettingWindow.mf_map_web_md_wfs_title.text() != None and self.QMapSettingWindow.mf_map_web_md_wms_title.text() == self.QMapSettingWindow.mf_map_web_md_wfs_title.text()):
+            self.map.setMetaData('ows_title', str(self.QMapSettingWindow.mf_map_web_md_wms_title.text()))
+        elif(self.QMapSettingWindow.mf_map_web_md_wms_title.text() != self.QMapSettingWindow.mf_map_web_md_wfs_title.text()):
+            if(self.QMapSettingWindow.mf_map_web_md_wms_title.text() != None):
+                self.map.setMetaData('wms_title', str(self.QMapSettingWindow.mf_map_web_md_wms_title.text()))
+            elif(self.QMapSettingWindow.mf_map_web_md_wfs_title.text() != None ):
+                self.map.setMetaData('wfs_title', str(self.QMapSettingWindow.mf_map_web_md_wfs_title.text()))
+
+        if(self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.text() != None and self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.text() == self.QMapSettingWindow.mf_map_web_md_wfs_onlineressource.text()):
+            self.map.setMetaData('ows_onlineresource', str(self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.text()))
+        elif( self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.text() != self.QMapSettingWindow.mf_map_web_md_wfs_onlineressource.text()):
+            if(self.QMapSettingWindow.mf_map_web_md_wfs_onlineressource.text() != None ):
+                self.map.setMetaData('wfs_onlineresource', str(self.QMapSettingWindow.mf_map_web_md_wfs_onlineressource.text()))
+            elif(self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.text() != None ):
+                self.map.setMetaData('wms_onlineresource', str(self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.text()))
+
+        if(self.QMapSettingWindow.mf_map_web_md_wms_srs.text() != None and self.QMapSettingWindow.mf_map_web_md_wms_srs.text() == self.QMapSettingWindow.mf_map_web_md_wfs_srs.text()):
+            self.map.setMetaData('ows_srs', str(self.QMapSettingWindow.mf_map_web_md_wms_title.text()))
+        elif(self.QMapSettingWindow.mf_map_web_md_wms_srs.text() != self.QMapSettingWindow.mf_map_web_md_wfs_srs.text()):
+            if(self.QMapSettingWindow.mf_map_web_md_wms_srs.text() != None):
+                self.map.setMetaData('wms_srs', str(self.QMapSettingWindow.mf_map_web_md_wms_srs.text()))
+            elif(self.QMapSettingWindow.mf_map_web_md_wfs_srs.text() != None ):
+                self.map.setMetaData('wfs_srs', str(self.QMapSettingWindow.mf_map_web_md_wfs_srs.text()))
+
+        self.QMapSettingWindow.mf_map_web_md_options_list.selectAll()
+        indexes =  self.QMapSettingWindow.mf_map_web_md_options_list.selectionModel().selection().indexes()
+        rowNum = len(indexes)/2
+        for row in range(rowNum):
+            name = str(indexes[row].data().toString())
+            value = str(indexes[row+rowNum].data().toString())
+            self.map.setMetaData(name, value)
+
         # debugTabForm
         if(str(self.QMapSettingWindow.mf_map_config_errorFile.text()) != ''):
 		     self.map.setConfigOption('MS_ERRORFILE', str(self.QMapSettingWindow.mf_map_config_errorfile.text()))
