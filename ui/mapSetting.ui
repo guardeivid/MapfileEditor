@@ -411,7 +411,7 @@
        <x>10</x>
        <y>100</y>
        <width>521</width>
-       <height>60</height>
+       <height>87</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="projectionLayout">
@@ -444,73 +444,73 @@
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <property name="sizeConstraint">
-         <enum>QLayout::SetDefaultConstraint</enum>
-        </property>
-        <item>
-         <widget class="QRadioButton" name="mf_map_projection_btepsg">
-          <property name="minimumSize">
-           <size>
-            <width>70</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>70</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="baseSize">
-           <size>
-            <width>70</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Define projection using EPSG code.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>EPSG</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="mf_map_projection_btproj">
-          <property name="minimumSize">
-           <size>
-            <width>70</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>70</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="baseSize">
-           <size>
-            <width>70</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Define projection using WKT Proj4 string.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Proj4</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_40">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <item>
+           <widget class="QRadioButton" name="mf_map_projection_btproj">
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>70</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>70</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Define projection using WKT Proj4 string.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Proj4</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="mf_map_projection_btepsg">
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>70</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>70</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Define projection using EPSG code.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>EPSG</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_30">
           <item>
@@ -1546,9 +1546,15 @@
          </item>
          <item>
           <widget class="QCheckBox" name="mf_map_web_md_wfs_enable_gc">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>120</width>
              <height>16777215</height>
             </size>
            </property>
@@ -1761,7 +1767,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-ok-apply.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-ok-apply.png</iconset>
+             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/edit-table-insert-row-above.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/edit-table-insert-row-above.png</iconset>
            </property>
           </widget>
          </item>
@@ -1772,7 +1778,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-cancel.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-cancel.png</iconset>
+             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/edit-table-delete-row.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/edit-table-delete-row.png</iconset>
            </property>
           </widget>
          </item>
