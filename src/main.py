@@ -64,7 +64,7 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         redoAction = self.undoStack.createRedoAction(self, QtCore.QCoreApplication.translate("MapFileEditor", "&Redo"));
         redoAction.setShortcuts(Qt.QKeySequence.Redo);
 
-        editMenu = self.menuBar().addMenu( QtCore.QCoreApplication.translate("MapFileEditor", "&Edit"), 1);
+        editMenu = self.menuBar().addMenu( QtCore.QCoreApplication.translate("MapFileEditor", "&Edit"));
         editMenu.addAction(undoAction);
         editMenu.addAction(redoAction);
 
@@ -292,6 +292,9 @@ class MapfileEditorApplication(QtGui.QMainWindow):
 
         self.QMapSettingWindow.mf_map_web_md_option_name.addItems(self.ogcMapOptions)
         self.createOgcOptionsModel()
+        for metadata, value in wmsMetaData.iteritems():
+            tableView = self.QMapSettingWindow.mf_map_web_md_options_list
+            self.addConfigOptionsToModel(metadata, value, tableView)
 
         self.connect(self.QMapSettingWindow.mf_map_web_md_options_add, QtCore.SIGNAL(_fromUtf8("clicked()")), self.addConfigOptionsOgc)
         self.connect(self.QMapSettingWindow.mf_map_web_md_options_del, QtCore.SIGNAL(_fromUtf8("clicked()")), self.delConfigOptionsOgc)
