@@ -339,13 +339,6 @@
     <addaction name="actionSymbol"/>
     <addaction name="actionFont"/>
    </widget>
-   <widget class="QMenu" name="menuEdit">
-    <property name="title">
-     <string>Edit</string>
-    </property>
-    <addaction name="actionUndo"/>
-    <addaction name="actionRedo"/>
-   </widget>
    <widget class="QMenu" name="menuSetting">
     <property name="title">
      <string>Setting</string>
@@ -354,7 +347,6 @@
     <addaction name="actionMapSetting"/>
    </widget>
    <addaction name="menuFichier"/>
-   <addaction name="menuEdit"/>
    <addaction name="menuSetting"/>
    <addaction name="menuNew"/>
    <addaction name="menuHelp"/>

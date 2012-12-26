@@ -66,7 +66,7 @@
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Map settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="mainTabForm">
     <property name="toolTip">
@@ -545,7 +545,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/documentinfo.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/documentinfo.png</iconset>
+              <normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/documentinfo.png</normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/documentinfo.png</iconset>
             </property>
            </widget>
           </item>
@@ -1100,7 +1100,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-new.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-new.png</iconset>
+            <normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-new.png</normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-new.png</iconset>
           </property>
          </widget>
         </item>
@@ -1114,7 +1114,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-edit.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-edit.png</iconset>
+            <normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-edit.png</normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-edit.png</iconset>
           </property>
          </widget>
         </item>
@@ -1128,7 +1128,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-close.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-close.png</iconset>
+            <normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-close.png</normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-close.png</iconset>
           </property>
          </widget>
         </item>
@@ -1142,7 +1142,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/draw-eraser.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/draw-eraser.png</iconset>
+            <normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/draw-eraser.png</normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/draw-eraser.png</iconset>
           </property>
          </widget>
         </item>
@@ -1159,7 +1159,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-import.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-import.png</iconset>
+            <normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-import.png</normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-import.png</iconset>
           </property>
          </widget>
         </item>
@@ -1385,7 +1385,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-ok-apply.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-ok-apply.png</iconset>
+             <normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-ok-apply.png</normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-ok-apply.png</iconset>
            </property>
           </widget>
          </item>
@@ -1396,7 +1396,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-cancel.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-cancel.png</iconset>
+             <normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-cancel.png</normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/dialog-cancel.png</iconset>
            </property>
           </widget>
          </item>
@@ -1665,28 +1665,28 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_35">
          <item>
-          <widget class="QLabel" name="mf_map_web_md_onlineressource_label">
+          <widget class="QLabel" name="mf_map_web_md_onlineresource_label">
            <property name="text">
             <string>WMS Online Ressource</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="mf_map_web_md_wms_onlineressource"/>
+          <widget class="QLineEdit" name="mf_map_web_md_wms_onlineresource"/>
          </item>
         </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_39">
          <item>
-          <widget class="QLabel" name="mf_map_web_md_wfs_onlineressource_label">
+          <widget class="QLabel" name="mf_map_web_md_wfs_onlineresource_label">
            <property name="text">
             <string>WFS Online Ressource</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="mf_map_web_md_wfs_onlineressource"/>
+          <widget class="QLineEdit" name="mf_map_web_md_wfs_onlineresource"/>
          </item>
         </layout>
        </item>
@@ -1767,7 +1767,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/edit-table-insert-row-above.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/edit-table-insert-row-above.png</iconset>
+             <normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/edit-table-insert-row-above.png</normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/edit-table-insert-row-above.png</iconset>
            </property>
           </widget>
          </item>
@@ -1778,7 +1778,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/edit-table-delete-row.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/edit-table-delete-row.png</iconset>
+             <normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/edit-table-delete-row.png</normaloff>../../../../../../../../../../../../usr/share/icons/oxygen/16x16/actions/edit-table-delete-row.png</iconset>
            </property>
           </widget>
          </item>

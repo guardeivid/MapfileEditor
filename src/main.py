@@ -1,5 +1,5 @@
 import sys
-from PyQt4 import uic, QtGui, QtCore
+from PyQt4 import uic, QtGui, QtCore, Qt
 import mapscript
 from osgeo import gdal, ogr
 
@@ -19,7 +19,7 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.debugOn = True
         self.debug_output = 'shell'
         self.debug = 'INFO'
-        self.history = []
+
         self.tmp = {'outputformat': None}
         self.debugLevel = {'ERROR': 0, 'WARNING': 3, 'INFO': 5}
         self.msLogical = {'MS_TRUE':1, 'MS_ON':1, 'MS_YES':1, 'MS_FALSE':0, 'MS_OFF':0, 'MS_NO':0}
@@ -31,6 +31,7 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.imageModeKeys = dict((v,k) for k, v in self.imageMode.iteritems())
         self.driver = ['AGG/PNG', 'AGG/JPEG', 'GD/GIF', 'GD/PNG','TEMPLATE', 'GDAL', 'OGR']
         self.imageTypes = ['jpeg' ,'pdf','png' ,'svg']
+
         self.ogcWmsRequests = ['GetCapabilities', 'GetMap', 'GetFeatureInfo', 'GetLegendGraphic']
         self.ogcWfsRequests = ['GetCapabilities', 'GetFeature', 'DescribeFeatureType']
         self.ogcMapOptions = ['', 'ows_http_max_age', 'ows_schemas_location', 'ows_sld_enabled', 'ows_updatesequence', 'wms_abstract', 'wms_accessconstraints', 'wms_addresstype', 'wms_address', 'wms_city', 'wms_stateorprovince', 'wms_postcode', 'wms_country', 'wms_attribution_logourl_format', 'wms_attribution_logourl_height', 'wms_attribution_logourl_href', 'wms_attribution_logourl_width', 'wms_attribution_onlineresource', 'wms_attribution_title', 'wms_bbox_extended', 'wms_contactelectronicmailaddress', 'wms_contactfacsimiletelephone', 'wms_contactperson', 'wms_contactorganization', 'wms_contactposition', 'wms_contactvoicetelephone', 'wms_encoding', 'wms_feature_info_mime_type', 'wms_fees', 'wms_getcapabilities_version', 'wms_getlegendgraphic_formatlist', 'wms_getmap_formatlist', 'wms_keywordlist', 'wms_keywordlist_vocabulary', 'wms_keywordlist_[vocabulary name]_items', 'wms_languages', 'wms_layerlimit', 'wms_resx', 'wms_resy', 'wms_rootlayer_abstract', 'wms_rootlayer_keywordlist', 'wms_rootlayer_title', 'wms_service_onlineresource', 'wms_timeformat', 'ows_schemas_location', 'ows_updatesequence', 'wfs_abstract', 'wfs_accessconstraints', 'wfs_encoding', 'wfs_feature_collection', 'wfs_fees', 'wfs_getcapabilities_version', 'wfs_keywordlist', 'wfs_maxfeatures', 'wfs_namespace_prefix', 'wfs_namespace_uri', 'wfs_service_onlineresource']
@@ -40,6 +41,9 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.proj4List = self.getProjectionList()  
 
         self.new()
+
+        self.undoStack = QtGui.QUndoStack(self)
+        self.createUndoView()
 
         self.connect(self.ui.actionNew, QtCore.SIGNAL(_fromUtf8("activated()")), self.new)
         self.connect(self.ui.mf_tb_new, QtCore.SIGNAL(_fromUtf8("clicked()")), self.new)
@@ -53,6 +57,16 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.connect(self.ui.mf_structure, QtCore.SIGNAL(_fromUtf8("doubleClicked(QModelIndex)")), self.openDialog)
         # Bug: not working
         self.connect(self.ui.mf_structure, QtCore.SIGNAL(_fromUtf8("entered(QModelIndex)")), self.openDialog)
+
+        undoAction = self.undoStack.createUndoAction(self, QtCore.QCoreApplication.translate("MapFileEditor", "&Undo"));
+        undoAction.setShortcuts(Qt.QKeySequence.Undo);
+
+        redoAction = self.undoStack.createRedoAction(self, QtCore.QCoreApplication.translate("MapFileEditor", "&Redo"));
+        redoAction.setShortcuts(Qt.QKeySequence.Redo);
+
+        editMenu = self.menuBar().addMenu( QtCore.QCoreApplication.translate("MapFileEditor", "&Edit"), 1);
+        editMenu.addAction(undoAction);
+        editMenu.addAction(redoAction);
 
     # ###########################
     # Settings Windows
@@ -255,14 +269,14 @@ class MapfileEditorApplication(QtGui.QMainWindow):
             del wmsMetaData['ows_enable_request']
 
         if('wms_onlineresource' in wmsMetaData):
-            self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.setText(wmsMetaData['wms_onlineresource'])
+            self.QMapSettingWindow.mf_map_web_md_wms_onlineresource.setText(wmsMetaData['wms_onlineresource'])
             del wmsMetaData['wms_onlineresource']
         if('wfs_onlineresource' in wmsMetaData):
-            self.QMapSettingWindow.mf_map_web_md_wfs_onlineressource.setText(wmsMetaData['wfs_onlineresource'])
+            self.QMapSettingWindow.mf_map_web_md_wfs_onlineresource.setText(wmsMetaData['wfs_onlineresource'])
             del wmsMetaData['wfs_onlineresource']
         if('ows_onlineresource' in wmsMetaData):
-            self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.setText(wmsMetaData['ows_onlineresource'])
-            self.QMapSettingWindow.mf_map_web_md_wfs_onlineressource.setText(wmsMetaData['ows_onlineresource'])
+            self.QMapSettingWindow.mf_map_web_md_wms_onlineresource.setText(wmsMetaData['ows_onlineresource'])
+            self.QMapSettingWindow.mf_map_web_md_wfs_onlineresource.setText(wmsMetaData['ows_onlineresource'])
             del wmsMetaData['ows_onlineresource']
 
         if('wms_srs' in wmsMetaData):
@@ -322,7 +336,6 @@ class MapfileEditorApplication(QtGui.QMainWindow):
     def getEnabledRequest(self, enableRequest, service = 'wms'):
         tmp = []
         enableRequest.sort()
-        #if( enableRequest.count('*') > 0):
         if(service == 'wms'):
             tmp = list(self.ogcWmsRequests)
         elif( service == 'wfs'):
@@ -333,8 +346,6 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         for i in range(len(enableRequest)):
             if( enableRequest[i].startswith('!') ):
                 request = enableRequest[i][1:len(enableRequest[i])]
-                print enableRequest[i]
-                print tmp
                 try:
                     tmp.remove(request)
                 except:
@@ -728,17 +739,13 @@ class MapfileEditorApplication(QtGui.QMainWindow):
                 self.map.setMetaData('wms_title', str(self.QMapSettingWindow.mf_map_web_md_wms_title.text()))
             elif(self.QMapSettingWindow.mf_map_web_md_wfs_title.text() != None ):
                 self.map.setMetaData('wfs_title', str(self.QMapSettingWindow.mf_map_web_md_wfs_title.text()))
-        owsEnableRequest = []
+
+        #owsEnableRequest = []
         wmsEnableRequest = []
         wfsEnableRequest = []
         
-        if(self.QMapSettingWindow.mf_map_web_md_wms_enable_gc.isChecked() == True and self.QMapSettingWindow.mf_map_web_md_wfs_enable_gc.isChecked() == True ):
-            owsEnableRequest.insert(-1, 'GetCapabilities',)
-        elif (self.QMapSettingWindow.mf_map_web_md_wms_enable_gc.isChecked() == True):
+        if (self.QMapSettingWindow.mf_map_web_md_wms_enable_gc.isChecked() == True):
             wmsEnableRequest.insert(-1, 'GetCapabilities')
-        elif (self.QMapSettingWindow.mf_map_web_md_wfs_enable_gc.isChecked() == True):
-            wfsEnableRequest.insert(-1, 'GetCapabilities')
-
         if(self.QMapSettingWindow.mf_map_web_md_wms_enable_gm.isChecked() == True): 
             wmsEnableRequest.insert(-1, 'GetMap')
         if (self.QMapSettingWindow.mf_map_web_md_wms_enable_glg.isChecked() == True):
@@ -746,6 +753,8 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         if (self.QMapSettingWindow.mf_map_web_md_wms_enable_gfi.isChecked() == True):
             wmsEnableRequest.insert(-1, 'GetFeatureInfo')
 
+        if (self.QMapSettingWindow.mf_map_web_md_wfs_enable_gc.isChecked() == True):
+            wfsEnableRequest.insert(-1, 'GetCapabilities')
         if(self.QMapSettingWindow.mf_map_web_md_wfs_enable_gf.isChecked() == True): 
             wfsEnableRequest.insert(-1, 'GetFeature')
         if (self.QMapSettingWindow.mf_map_web_md_wfs_enable_dft.isChecked() == True):
@@ -764,47 +773,52 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         except:
             self.debugLog( "impossible to remove wfs_enable_request: it doesn't exist")
 
-        if(len(wmsEnableRequest) == 3 and len(wfsEnableRequest) == 2 and len(owsEnableRequest) == 1):
+        if( len(wmsEnableRequest) == 4 and len(wfsEnableRequest) == 3 ):
             self.map.setMetaData('ows_enable_request', '*')
-        elif(len(wfsEnableRequest) == 0):
-            if(len(wmsEnableRequest) >= 2):
+        elif ( 'GetCapabilities' in wmsEnableRequest and 'GetCapabilities' in wfsEnableRequest):
+            owsEnableRequest = wmsEnableRequest + wfsEnableRequest
+            if(len(wfsEnableRequest) >= 2 and len(wmsEnableRequest) >= 3):
+                owsEnableRequest = ['*']
+                tmpEnableRequest = wfsEnableRequest + wmsEnableRequest
+                availableRequest = self.ogcWfsRequests + self.ogcWmsRequests
+                enableRequest = ["!"+" !".join([item for item in availableRequest if not item in tmpEnableRequest])]
+                owsEnableRequest += enableRequest
+                print "sum of request:"
+                print tmpEnableRequest
+                print availableRequest
+                print owsEnableRequest
+            self.map.setMetaData('ows_enable_request', ' '.join(owsEnableRequest))
+        else:
+            if(len(wmsEnableRequest) >= 3 and len(wmsEnableRequest) != len(self.ogcWmsRequests)):
                 wmsEnableRequest.sort()
                 diffWmsRequests = [item for item in self.ogcWmsRequests if not item in wmsEnableRequest]
                 self.map.setMetaData('wms_enable_request', '* !'+' !'.join(diffWmsRequests))
-            else:
+            elif (len(wmsEnableRequest) == len(self.ogcWmsRequests)):
+                self.map.setMetaData('wms_enable_request', '*')
+            elif (len(wmsEnableRequest) < 3):
                 self.map.setMetaData('wms_enable_request', ' '.join(wmsEnableRequest))
-        elif(len(wmsEnableRequest) == 0):
-            if(len(wfsEnableRequest) >= 1):
+            if(len(wfsEnableRequest) >= 2 and len(wfsEnableRequest) != len(self.ogcWfsRequests)):
                 diffWfsRequests = [item for item in self.ogcWfsRequests if not item in wfsEnableRequest]
-                self.map.setMetaData('wfs_enable_request', '* !'+' !'.join(diffWfsRequests))
-            else:
+                self.map.setMetaData('wfs_enable_request', '* !' + ' !'.join(diffWfsRequests))
+            elif( len(wfsEnableRequest) == len(self.ogcWfsRequests)):
+                self.map.setMetaData('wfs_enable_request', '*')
+            elif (len(wfsEnableRequest) < 2):
                 self.map.setMetaData('wfs_enable_request', ' '.join(wfsEnableRequest))
-        else:
-            if(len(wfsEnableRequest) >= 1 and len(wmsEnableRequest) >= 2):
-                if(len(owsEnableRequest) == 0):
-                    owsEnableRequest = ['']
-                else:
-                    owsEnableRequest = ['GetCapabilities']
-                #BUG: remove GetCabilities from list if existing only in one list (wms or wfs)
-                wfsEnableRequest = ["!"+" !".join([item for item in self.ogcWfsRequests if not item in wfsEnableRequest])]
-                wmsEnableRequest = ["!"+" !".join([item for item in self.ogcWmsRequests if not item in wmsEnableRequest])]
-            owsEnableRequest += wmsEnableRequest + wfsEnableRequest
-            self.map.setMetaData('ows_enable_request', ' '.join(owsEnableRequest))
-            
-        if(self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.text() != None and self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.text() == self.QMapSettingWindow.mf_map_web_md_wfs_onlineressource.text()):
-            self.map.setMetaData('ows_onlineresource', str(self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.text()))
-        elif( self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.text() != self.QMapSettingWindow.mf_map_web_md_wfs_onlineressource.text()):
-            if(self.QMapSettingWindow.mf_map_web_md_wfs_onlineressource.text() != None ):
-                self.map.setMetaData('wfs_onlineresource', str(self.QMapSettingWindow.mf_map_web_md_wfs_onlineressource.text()))
-            elif(self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.text() != None ):
-                self.map.setMetaData('wms_onlineresource', str(self.QMapSettingWindow.mf_map_web_md_wms_onlineressource.text()))
+ 
+        if(self.QMapSettingWindow.mf_map_web_md_wms_onlineresource.text() != '' and self.QMapSettingWindow.mf_map_web_md_wms_onlineresource.text() == self.QMapSettingWindow.mf_map_web_md_wfs_onlineresource.text()):
+            self.map.setMetaData('ows_onlineresource', str(self.QMapSettingWindow.mf_map_web_md_wms_onlineresource.text()))
+        elif( self.QMapSettingWindow.mf_map_web_md_wms_onlineresource.text() != self.QMapSettingWindow.mf_map_web_md_wfs_onlineresource.text()):
+            if(self.QMapSettingWindow.mf_map_web_md_wfs_onlineresource.text() != '' ):
+                self.map.setMetaData('wfs_onlineresource', str(self.QMapSettingWindow.mf_map_web_md_wfs_onlineresource.text()))
+            elif(self.QMapSettingWindow.mf_map_web_md_wms_onlineresource.text() != '' ):
+                self.map.setMetaData('wms_onlineresource', str(self.QMapSettingWindow.mf_map_web_md_wms_onlineresource.text()))
 
-        if(self.QMapSettingWindow.mf_map_web_md_wms_srs.text() != None and self.QMapSettingWindow.mf_map_web_md_wms_srs.text() == self.QMapSettingWindow.mf_map_web_md_wfs_srs.text()):
+        if(self.QMapSettingWindow.mf_map_web_md_wms_srs.text() != '' and self.QMapSettingWindow.mf_map_web_md_wms_srs.text() == self.QMapSettingWindow.mf_map_web_md_wfs_srs.text()):
             self.map.setMetaData('ows_srs', str(self.QMapSettingWindow.mf_map_web_md_wms_title.text()))
         elif(self.QMapSettingWindow.mf_map_web_md_wms_srs.text() != self.QMapSettingWindow.mf_map_web_md_wfs_srs.text()):
-            if(self.QMapSettingWindow.mf_map_web_md_wms_srs.text() != None):
+            if(self.QMapSettingWindow.mf_map_web_md_wms_srs.text() != ''):
                 self.map.setMetaData('wms_srs', str(self.QMapSettingWindow.mf_map_web_md_wms_srs.text()))
-            elif(self.QMapSettingWindow.mf_map_web_md_wfs_srs.text() != None ):
+            elif(self.QMapSettingWindow.mf_map_web_md_wfs_srs.text() != '' ):
                 self.map.setMetaData('wfs_srs', str(self.QMapSettingWindow.mf_map_web_md_wfs_srs.text()))
 
         self.QMapSettingWindow.mf_map_web_md_options_list.selectAll()
@@ -887,6 +901,15 @@ class MapfileEditorApplication(QtGui.QMainWindow):
     # ##########################
     # Common Method
     # ##########################
+    def createUndoView(self):
+        self.undoWindows = QtGui.QDialog()
+        self.undoWindows.show()
+
+        undoView = QtGui.QUndoView(self.undoWindows)
+        undoView.setWindowTitle(QtCore.QCoreApplication.translate("MapFileEditor", "Command List"))
+        undoView.show();
+        undoView.setAttribute(Qt.Qt.WA_QuitOnClose, False);
+
     def updateMap(self):
         cloneMap = self.map.clone()
         cloneMap.setSize(500,500)
