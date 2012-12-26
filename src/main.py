@@ -232,8 +232,6 @@ class MapfileEditorApplication(QtGui.QMainWindow):
         self.connect(self.QMapSettingWindow.mf_ogc_enable, QtCore.SIGNAL(_fromUtf8("clicked()")), self.enableOgcFrame)
         wmsMetaData = {}
         key = self.map.getFirstMetaDataKey()
-        wmsMetaData[key] = self.map.getMetaData(key)
-        key = self.map.getNextMetaDataKey(key)
         while key != None:
             wmsMetaData[key] = self.map.getMetaData(key)
             key = self.map.getNextMetaDataKey(key)
