@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MapSetting</class>
- <widget class="QDialog" name="MapSetting">
+ <class>MapSettings</class>
+ <widget class="QDialog" name="MapSettings">
   <property name="enabled">
    <bool>true</bool>
   </property>
@@ -32,7 +32,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Map Setting</string>
+   <string>Map Settings</string>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -1977,7 +1977,7 @@
   <connection>
    <sender>mapSettingButtonBox</sender>
    <signal>rejected()</signal>
-   <receiver>MapSetting</receiver>
+   <receiver>MapSettings</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1993,7 +1993,7 @@
   <connection>
    <sender>mapSettingButtonBox</sender>
    <signal>accepted()</signal>
-   <receiver>MapSetting</receiver>
+   <receiver>MapSettings</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
