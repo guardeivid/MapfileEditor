@@ -10,7 +10,9 @@ except AttributeError:
 
 class MapSettings(QtGui.QMainWindow):
     def __init__(self, mapfile, config):
-       
+       self.QMapSettingWindow = uic.loadUi('ui/mapSetting.ui')
+       self.QMapSettingWindow.setModal(True)
+
        self.tmp = {'outputformat': None}
        self.imageTypes = ['jpeg' ,'pdf','png' ,'svg']
        self.units = ['inches', 'feet' ,'miles', 'meters', 'kilometers', 'dd', 'pixels', 'pourcentages', 'nauticalmiles']
@@ -31,9 +33,6 @@ class MapSettings(QtGui.QMainWindow):
     # Settings Windows
     # ###########################
     def openMapSettings(self):
-        self.QMapSettingWindow = uic.loadUi('ui/mapSetting.ui')
-        self.QMapSettingWindow.setModal(True)
-        
         # Update form from MapFile
         try:
             self.QMapSettingWindow.mf_map_name.insert(self.map.name)
@@ -98,13 +97,18 @@ class MapSettings(QtGui.QMainWindow):
         self.QMapSettingWindow.mf_map_projection.setCompleter(epsgCompleter)
 
         # ... change completer following mf_map_projection_btepsg/btproj
-        self.connect(self.QMapSettingWindow.mf_map_projection_btepsg, QtCore.SIGNAL(_fromUtf8("clicked()")), self.switchProjection)
-        self.connect(self.QMapSettingWindow.mf_map_projection_btproj, QtCore.SIGNAL(_fromUtf8("clicked()")), self.switchProjection)
-        self.QMapSettingWindow.connect(self.QMapSettingWindow.mf_map_projection_btlink, QtCore.SIGNAL(_fromUtf8("clicked()")), self.openProjectionInfoLink)
+        #self.connect(self.QMapSettingWindow.mf_map_projection_btepsg, QtCore.SIGNAL(_fromUtf8("clicked()")), self.switchProjection)
+        #self.connect(self.QMapSettingWindow.mf_map_projection_btproj, QtCore.SIGNAL(_fromUtf8("clicked()")), self.switchProjection)
+        #self.connect(self.QMapSettingWindow.mf_map_projection_btlink, QtCore.SIGNAL(_fromUtf8("clicked()")), self.openProjectionInfoLink)
+        self.QMapSettingWindow.mf_map_projection_btepsg.clicked.connect(self.switchProjection)
+        self.QMapSettingWindow.mf_map_projection_btproj.clicked.connect(self.switchProjection)
+        self.QMapSettingWindow.mf_map_projection_btlink.clicked.connect(self.openProjectionInfoLink)
 
         # -- extent
-        self.connect(self.QMapSettingWindow.mf_map_extent_auto, QtCore.SIGNAL(_fromUtf8("clicked()")), self.setExtentFields)
-        self.connect(self.QMapSettingWindow.mf_map_extent_manuel, QtCore.SIGNAL(_fromUtf8("clicked()")), self.setExtentFields)
+        #self.connect(self.QMapSettingWindow.mf_map_extent_auto, QtCore.SIGNAL(_fromUtf8("clicked()")), self.setExtentFields)
+        #self.connect(self.QMapSettingWindow.mf_map_extent_manuel, QtCore.SIGNAL(_fromUtf8("clicked()")), self.setExtentFields)
+        self.QMapSettingWindow.mf_map_extent_manuel.clicked.connect(self.setExtentFields)
+        self.QMapSettingWindow.mf_map_extent_auto.clicked.connect(self.setExtentFields)
 
         if (self.map.extent.maxx != -1 and self.map.extent.maxy != -1 and self.map.extent.minx != -1 and self.map.extent.miny != -1):
             self.QMapSettingWindow.mf_map_extent_auto.setChecked(False)
@@ -509,6 +513,7 @@ class MapSettings(QtGui.QMainWindow):
          QtGui.QDesktopServices.openUrl(QtCore.QUrl("http://spatialreference.org/ref/epsg/"+ epsgCode +"/"))
 
     def switchProjection(self):
+        print "ok"
         self.QMapSettingWindow.mf_map_projection_info.setText("")
         currentProj = str(self.QMapSettingWindow.mf_map_projection.currentText())
         if(self.QMapSettingWindow.mf_map_projection_btepsg.isChecked()):
