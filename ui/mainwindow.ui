@@ -55,7 +55,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-new.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-new.png</iconset>
+         <normaloff>images/icons/document-new.png</normaloff>images/icons/document-new.png</iconset>
        </property>
       </widget>
      </item>
@@ -66,7 +66,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-open.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-open.png</iconset>
+         <normaloff>images/icons/document-open.png</normaloff>images/icons/document-open.png</iconset>
        </property>
       </widget>
      </item>
@@ -77,7 +77,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-save.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-save.png</iconset>
+         <normaloff>images/icons/document-save.png</normaloff>images/icons/document-save.png</iconset>
        </property>
       </widget>
      </item>
@@ -88,7 +88,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/tools-wizard.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/tools-wizard.png</iconset>
+         <normaloff>images/icons/tools-wizard.png</normaloff>images/icons/tools-wizard.png</iconset>
        </property>
       </widget>
      </item>
@@ -99,7 +99,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-preview.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/document-preview.png</iconset>
+         <normaloff>images/icons/document-preview.png</normaloff>images/icons/document-preview.png</iconset>
        </property>
       </widget>
      </item>
@@ -212,7 +212,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/zoom-original.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/zoom-original.png</iconset>
+             <normaloff>images/icons/zoom-original.png</normaloff>images/icons/zoom-original.png</iconset>
            </property>
           </widget>
          </item>
@@ -223,7 +223,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/zoom-in.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/zoom-in.png</iconset>
+             <normaloff>images/icons/zoom-in.png</normaloff>images/icons/zoom-in.png</iconset>
            </property>
           </widget>
          </item>
@@ -234,7 +234,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/zoom-out.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/zoom-out.png</iconset>
+             <normaloff>images/icons/zoom-out.png</normaloff>images/icons/zoom-out.png</iconset>
            </property>
           </widget>
          </item>
@@ -245,7 +245,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/transform-move.png</normaloff>../../../../../../../../../usr/share/icons/oxygen/16x16/actions/transform-move.png</iconset>
+             <normaloff>images/icons/transform-move.png</normaloff>images/icons/transform-move.png</iconset>
            </property>
           </widget>
          </item>
